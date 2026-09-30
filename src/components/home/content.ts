@@ -3,6 +3,7 @@
 export const JOIN_HREF = "/apply";
 export const INSTAGRAM_HANDLE = "@utra_rift";
 export const INSTAGRAM_HREF = "https://www.instagram.com/utra_rift/";
+export const GITHUB_HREF = "https://github.com/utra-rift";
 export const UTRA_HREF = "https://utra.ca";
 
 export const NAV_LINKS = [
@@ -23,14 +24,6 @@ export const GAME_FACTS = [
 	{ term: "Rounds", detail: "2 minutes" },
 	{ term: "First season", detail: "2026-2027" },
 	{ term: "Target", detail: "Summer 2027" },
-];
-
-/** Limits from ARC's 2026 rules for a 1v1 robot. */
-export const ROBOT_SPECS = [
-	{ value: "600 MM", label: "Starting cube, 800 mm expanded" },
-	{ value: "25 KG", label: "Maximum weight" },
-	{ value: "17 MM", label: "Projectiles from one launcher" },
-	{ value: "25 M/S", label: "Maximum projectile speed" },
 ];
 
 export const RIVALS = [
@@ -128,16 +121,16 @@ export const TEAMS: Team[] = [
 
 export const TEAM_PRINCIPLES = [
 	{
-		title: "Start where you are",
+		title: "Any starting point",
 		body: "Beginners get scoped tasks to learn on. Experienced members take on whole subsystems.",
 	},
 	{
 		title: "Leads who teach",
-		body: "Each group lead assigns tasks and gives technical guidance. Responsibility grows with your skills and commitment.",
+		body: "Your group lead hands out the work and shows you how to do it. Deliver, and you'll own bigger parts of the robot.",
 	},
 	{
 		title: "Found the team",
-		body: "This is RIFT's first season. The people who join now decide how the team builds, tests and competes.",
+		body: "This is RIFT's first season. The people who join now set how the team runs for years after.",
 	},
 	{
 		title: "Safe by default",
@@ -162,7 +155,7 @@ export const LEVEL_UP = [
 	},
 	{
 		title: "A gimbal and a launcher",
-		body: "Two-axis aiming, a feeder and a launcher, all on a chassis that never stops moving.",
+		body: "A two-axis gimbal aims a 17 mm launcher while the chassis keeps driving.",
 	},
 	{
 		title: "A referee system",
@@ -254,7 +247,7 @@ export const EXEC_TEAM: Exec[] = [
 		photo: "/images/exec/aaron-huang.webp",
 		focus: "Mechanical design, fabrication and assembly.",
 		highlights: [
-			"Founding member, chief engineer and captain of FRC 7520: led 60+ members across 8 subteams to two consecutive Worlds appearances.",
+			"Founding member, chief engineer and captain of FRC 7520. Took the 60-member, 8-subteam program to Worlds two years in a row.",
 			"Co-founded YM Robotics (VRC 95500A) and grew it to 30 members.",
 			"Designed a portable CoreXY 3D printer and a CNC controller with a hardware emergency stop.",
 		],
@@ -267,7 +260,7 @@ export const EXEC_TEAM: Exec[] = [
 		focus: "Power systems, motor control electronics and electrical testing.",
 		highlights: [
 			"Co-founded YM Robotics and its VEX V5 team, 95500A.",
-			"President of the YM Technology Council, running tech events and fundraising for competition fees and equipment.",
+			"President of the YM Technology Council. Ran its tech events and raised money for robotics fees and equipment.",
 			"Builds embedded and IoT projects on Arduino and XIAO boards. Second place at NSBEHacks.",
 		],
 	},
@@ -279,7 +272,7 @@ export const EXEC_TEAM: Exec[] = [
 		focus: "Robot control software, vision assistance and software testing.",
 		highlights: [
 			"Co-founded YM Robotics, and built and drove its competition robot.",
-			"Founding product engineer at The Relationship Company, on an app with 80,000 monthly users.",
+			"Founding product engineer at The Relationship Company.",
 			"First place in Education at Stanford TreeHacks. Works with Raspberry Pi, Arduino and custom PCBs.",
 		],
 	},
@@ -290,8 +283,8 @@ export const EXEC_TEAM: Exec[] = [
 		photo: "/images/exec/aiden-kim.webp",
 		focus: "Fundraising, budgeting, procurement and competition logistics.",
 		highlights: [
-			"Business analyst at Avail Risk Management, supporting partnership outreach worth over $1B in insurable value.",
-			"Founding team at Crisis Connect, a seed-stage startup, where outreach secured a University of Chicago partnership.",
+			"Business analyst at Avail Risk Management, on partnerships covering over $1B in insurable value.",
+			"Early team at Crisis Connect, a seed-stage startup. Landed its University of Chicago partnership.",
 			"Co-founded the YM Case Competition and ran finance for YM Robotics.",
 		],
 	},

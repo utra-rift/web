@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Lockup from "#/components/brand/Lockup";
+import { GitHubIcon, InstagramIcon } from "#/components/brand/SocialIcons";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
@@ -8,6 +9,7 @@ import {
 	EXEC_TEAM,
 	type Exec,
 	GAME_FACTS,
+	GITHUB_HREF,
 	INSTAGRAM_HANDLE,
 	INSTAGRAM_HREF,
 	JOIN_HREF,
@@ -18,7 +20,6 @@ import {
 	PHOTOS,
 	type Phase,
 	RIVALS,
-	ROBOT_SPECS,
 	SEASON,
 	TEAM_PRINCIPLES,
 	TEAMS,
@@ -56,7 +57,7 @@ function Section({
 		<section
 			id={id}
 			aria-labelledby={`${id}-title`}
-			className={cn("scroll-mt-4 py-24 md:py-32", className)}
+			className={cn("scroll-mt-4 py-20 md:py-28", className)}
 		>
 			<div className={CONTAINER}>{children}</div>
 		</section>
@@ -77,14 +78,16 @@ function SectionHeading({
 	className?: string;
 }) {
 	return (
-		<div className={cn("reveal flex max-w-2xl flex-col gap-5", className)}>
-			<p className="type-label text-cyan-text">{eyebrow}</p>
-			<h2
-				id={`${id}-title`}
-				className="type-display-lg text-balance max-sm:text-[32px] max-sm:leading-9 md:type-display-xl"
-			>
-				{title}
-			</h2>
+		<div className={cn("reveal flex max-w-2xl flex-col gap-6", className)}>
+			<div className="flex flex-col gap-3">
+				<p className="type-label text-cyan-text">{eyebrow}</p>
+				<h2
+					id={`${id}-title`}
+					className="type-display-lg text-balance max-sm:text-[32px] max-sm:leading-9 md:type-display-xl"
+				>
+					{title}
+				</h2>
+			</div>
 			{children && (
 				<div className="flex flex-col gap-4 type-body text-pretty text-ink-muted">
 					{children}
@@ -101,7 +104,7 @@ function GameSection() {
 				<div className="flex flex-col gap-10">
 					<SectionHeading
 						id="game"
-						eyebrow="Paintball for robots"
+						eyebrow="ARC Championships"
 						title="The game"
 					>
 						<p>
@@ -116,7 +119,7 @@ function GameSection() {
 						</p>
 					</SectionHeading>
 
-					<dl className="reveal grid grid-cols-2 gap-x-6 gap-y-6 border-t pt-6">
+					<dl className="reveal grid grid-cols-2 gap-6">
 						{GAME_FACTS.map((fact) => (
 							<div key={fact.term} className="flex flex-col gap-1">
 								<dt className="type-label text-ink-muted">{fact.term}</dt>
@@ -135,7 +138,7 @@ function GameSection() {
 							height={PHOTOS.main.height}
 							loading="lazy"
 							decoding="async"
-							className="col-span-2 aspect-[16/10] w-full rounded-md object-cover"
+							className="col-span-2 aspect-[16/10] w-full rounded-md object-cover outline-1 -outline-offset-1 outline-white/10"
 						/>
 						{PHOTOS.side.map((photo) => (
 							<img
@@ -146,7 +149,7 @@ function GameSection() {
 								height={photo.height}
 								loading="lazy"
 								decoding="async"
-								className="aspect-[3/2] w-full rounded-md object-cover"
+								className="aspect-[3/2] w-full rounded-md object-cover outline-1 -outline-offset-1 outline-white/10"
 							/>
 						))}
 					</div>
@@ -155,25 +158,6 @@ function GameSection() {
 						league include {RIVALS.slice(0, -1).join(", ")} and {RIVALS.at(-1)}.
 					</figcaption>
 				</figure>
-			</div>
-
-			<div className="mt-20">
-				<h3 className="reveal type-label text-ink-muted">
-					The robot, by ARC's 2026 rules
-				</h3>
-				<dl className="reveal mt-6 grid grid-cols-2 border-t border-l lg:grid-cols-4">
-					{ROBOT_SPECS.map((spec) => (
-						<div
-							key={spec.value}
-							className="flex flex-col-reverse justify-end gap-2 border-r border-b p-5 md:p-6"
-						>
-							<dt className="type-body-sm text-ink-muted">{spec.label}</dt>
-							<dd className="font-display text-[22px] leading-7 font-semibold text-ink sm:type-display-sm md:text-[32px] md:leading-10">
-								{spec.value}
-							</dd>
-						</div>
-					))}
-				</dl>
 			</div>
 		</Section>
 	);
@@ -198,7 +182,7 @@ function TeamsSection() {
 					asChild
 					variant="accent"
 					size="lg"
-					className="reveal self-start lg:self-end"
+					className="reveal self-start max-sm:w-full lg:self-end"
 				>
 					<a href={JOIN_HREF}>Apply to join</a>
 				</Button>
@@ -214,7 +198,7 @@ function TeamsSection() {
 				{TEAM_PRINCIPLES.map((principle) => (
 					<li
 						key={principle.title}
-						className="reveal flex flex-col gap-2 border-t-2 border-ink pt-5"
+						className="reveal flex flex-col gap-2 border-t pt-5"
 					>
 						<h3 className="type-title">{principle.title}</h3>
 						<p className="type-body-sm text-pretty text-ink-muted">
@@ -286,9 +270,9 @@ function LeaguesSection() {
 					title="Your next robot"
 				>
 					<p>
-						You've done build season, drive team and the pit. RIFT is the same
-						loop at university, with a robot that fights back. What you learned
-						carries straight over and gives you a head start.
+						You've done build season, drive team and the pit. RIFT runs on the
+						same cycle, so your CAD, wiring and code count from the first
+						meeting.
 					</p>
 					<p>
 						Your leads came up the same way, through FRC 7520 and VEX 95500A.
@@ -368,14 +352,14 @@ function ExecCard({ exec }: { exec: Exec }) {
 				decoding="async"
 				className="aspect-square w-full object-cover"
 			/>
-			<div className="flex flex-1 flex-col gap-4 p-6">
+			<div className="flex flex-1 flex-col gap-5 p-6">
 				<div className="flex flex-col gap-1">
 					<p className="type-label text-cyan-text">{exec.role}</p>
 					<h3 className="type-title">{exec.name}</h3>
 					<p className="type-data text-ink-muted">{exec.program}</p>
 				</div>
 				<p className="type-body-sm text-ink">{exec.focus}</p>
-				<ul className="flex flex-col gap-2.5 border-t pt-4">
+				<ul className="flex flex-col gap-2.5">
 					{exec.highlights.map((highlight) => (
 						<li
 							key={highlight}
@@ -409,7 +393,7 @@ function SeasonSection() {
 				<p>
 					A working robot by March, then testing and qualification in April.
 					We're aiming for the championships in late June or early July 2027.
-					Event dates and deadlines aren't confirmed yet.
+					ARC hasn't confirmed event dates or deadlines yet.
 				</p>
 			</SectionHeading>
 
@@ -420,7 +404,7 @@ function SeasonSection() {
 						<li
 							key={phase.label}
 							data-status={status}
-							className="reveal season-phase relative flex flex-col gap-3 border-l-2 pb-10 pl-6 lg:border-t-2 lg:border-l-0 lg:pt-8 lg:pr-6 lg:pb-0 lg:pl-0"
+							className="reveal season-phase relative flex flex-col gap-3 border-s-2 ps-6 pb-10 lg:border-s-0 lg:border-t-2 lg:ps-0 lg:pe-6 lg:pt-8 lg:pb-0"
 						>
 							<span aria-hidden="true" className="season-dot" />
 							<div className="flex h-6 items-center gap-3">
@@ -465,7 +449,7 @@ function KickoffSection() {
 					width={1080}
 					height={1080}
 					loading="lazy"
-					className="kickoff-mark mx-auto w-40 md:w-56 lg:w-72"
+					className="kickoff-mark w-24 md:w-40 lg:w-72"
 				/>
 				<div className="reveal flex flex-col gap-8">
 					<div className="flex flex-col gap-4">
@@ -490,12 +474,13 @@ function KickoffSection() {
 						Meet the leads, hear the plan for the season and pick a team. Bring
 						a friend. No experience required.
 					</p>
-					<div className="flex flex-wrap gap-4">
+					<div className="grid gap-3 sm:flex sm:flex-wrap">
 						<Button asChild variant="accent" size="lg">
 							<a href={JOIN_HREF}>Join the team</a>
 						</Button>
 						<Button asChild variant="outline" size="lg">
 							<a href={INSTAGRAM_HREF} target="_blank" rel="noreferrer">
+								<InstagramIcon className="size-[18px]" />
 								Follow {INSTAGRAM_HANDLE}
 							</a>
 						</Button>
@@ -530,7 +515,7 @@ export function SiteFooter() {
 							<a
 								key={link.href}
 								href={link.href}
-								className="type-body-sm text-ink capitalize transition-colors hover:text-cyan"
+								className="type-body-sm text-ink capitalize transition-[color] hover:text-cyan"
 							>
 								{link.label.toLowerCase()}
 							</a>
@@ -540,7 +525,7 @@ export function SiteFooter() {
 						<h2 className="type-label text-ink-muted">Connect</h2>
 						<a
 							href={JOIN_HREF}
-							className="type-body-sm text-ink transition-colors hover:text-cyan"
+							className="type-body-sm text-ink transition-[color] hover:text-cyan"
 						>
 							Apply
 						</a>
@@ -548,15 +533,25 @@ export function SiteFooter() {
 							href={INSTAGRAM_HREF}
 							target="_blank"
 							rel="noreferrer"
-							className="type-data text-ink transition-colors hover:text-cyan"
+							className="flex items-center gap-2 type-body-sm text-ink transition-[color] hover:text-cyan"
 						>
-							{INSTAGRAM_HANDLE}
+							<InstagramIcon className="size-4" />
+							Instagram
+						</a>
+						<a
+							href={GITHUB_HREF}
+							target="_blank"
+							rel="noreferrer"
+							className="flex items-center gap-2 type-body-sm text-ink transition-[color] hover:text-cyan"
+						>
+							<GitHubIcon className="size-4" />
+							GitHub
 						</a>
 						<a
 							href={UTRA_HREF}
 							target="_blank"
 							rel="noreferrer"
-							className="type-body-sm text-ink transition-colors hover:text-cyan"
+							className="type-body-sm text-ink transition-[color] hover:text-cyan"
 						>
 							UTRA
 						</a>

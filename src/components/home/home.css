@@ -33,7 +33,7 @@
 }
 .season-dot {
 	position: absolute;
-	left: -5px;
+	inset-inline-start: -5px;
 	top: 6px;
 	width: 8px;
 	height: 8px;
@@ -51,7 +51,7 @@
 }
 @media (width >= 64rem) {
 	.season-dot {
-		left: 0;
+		inset-inline-start: 0;
 		top: -5px;
 	}
 }

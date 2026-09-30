@@ -8,7 +8,15 @@ import {
 	useState,
 } from "react";
 import Lockup from "#/components/brand/Lockup";
-import { JOIN_HREF, KICKOFF, NAV_LINKS } from "#/components/home/content";
+import { GitHubIcon, InstagramIcon } from "#/components/brand/SocialIcons";
+import {
+	GITHUB_HREF,
+	INSTAGRAM_HANDLE,
+	INSTAGRAM_HREF,
+	JOIN_HREF,
+	KICKOFF,
+	NAV_LINKS,
+} from "#/components/home/content";
 import { Button } from "#/components/ui/button";
 import {
 	Sheet,
@@ -374,15 +382,39 @@ function MobileMenu() {
 								target.current = link.href;
 								setOpen(false);
 							}}
-							className="border-b py-4 font-wide text-lg font-medium tracking-[0.06em] text-ink transition-colors hover:text-cyan"
+							className="border-b py-4 font-wide text-lg font-medium tracking-[0.06em] text-ink transition-[color] hover:text-cyan"
 						>
 							{link.label}
 						</a>
 					))}
 				</nav>
-				<Button asChild variant="outline" className="mt-auto w-full">
-					<a href={JOIN_HREF}>Join</a>
-				</Button>
+				<div className="mt-auto flex flex-col gap-6">
+					<div className="flex gap-3">
+						<Button asChild variant="outline" size="icon">
+							<a
+								href={INSTAGRAM_HREF}
+								target="_blank"
+								rel="noreferrer"
+								aria-label={`Instagram, ${INSTAGRAM_HANDLE}`}
+							>
+								<InstagramIcon className="size-5" />
+							</a>
+						</Button>
+						<Button asChild variant="outline" size="icon">
+							<a
+								href={GITHUB_HREF}
+								target="_blank"
+								rel="noreferrer"
+								aria-label="GitHub, utra-rift"
+							>
+								<GitHubIcon className="size-5" />
+							</a>
+						</Button>
+					</div>
+					<Button asChild variant="outline" className="w-full">
+						<a href={JOIN_HREF}>Join</a>
+					</Button>
+				</div>
 			</SheetContent>
 		</Sheet>
 	);

@@ -6,7 +6,7 @@ import { cn } from "#/lib/utils";
 // RIFT buttons: primary (navy), accent (cyan), outline. Labels are set in
 // Widescreen, uppercase; corners are radius-sm.
 const buttonVariants = cva(
-	"inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm border-2 border-transparent font-wide text-[13px] leading-4 font-semibold tracking-[0.04em] whitespace-nowrap uppercase transition-[background-color,color,border-color,filter] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+	"inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm border-2 border-transparent font-wide text-[13px] leading-4 font-semibold tracking-[0.04em] whitespace-nowrap uppercase transition-[background-color,color,border-color,filter,scale] active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 	{
 		variants: {
 			variant: {
