@@ -1,0 +1,674 @@
+{
+  "01 | white cyan seams": {
+    "color": [
+      0.17,
+      0.65,
+      1.0
+    ],
+    "strength": 10.0
+  },
+  "02 | blue secondary filaments": {
+    "color": [
+      0.012,
+      0.19,
+      1.0
+    ],
+    "strength": 4.0
+  },
+  "03 | streaming blue energy membrane": {
+    "color": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "strength": 2.3
+  },
+  "05 | translucent wisps": {
+    "color": [
+      0.02,
+      0.24,
+      1.0
+    ],
+    "strength": 3.5
+  },
+  "06 | faint interior motes": {
+    "color": [
+      0.2,
+      0.43,
+      0.7
+    ],
+    "strength": 0.8
+  },
+  "CORONA | cool blue persistence": {
+    "color": [
+      0.012,
+      0.16,
+      1.0
+    ],
+    "strength": 4.0
+  },
+  "Corona | soft blue envelope inner": {
+    "color": [
+      0.006,
+      0.09,
+      1.0
+    ],
+    "strength": 1.7
+  },
+  "Corona | soft blue envelope outer": {
+    "color": [
+      0.006,
+      0.09,
+      1.0
+    ],
+    "strength": 1.7
+  },
+  "DISCHARGE | pulse 00": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 14.0
+  },
+  "DISCHARGE | pulse 01": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.0
+  },
+  "DISCHARGE | pulse 02": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.777777
+  },
+  "DISCHARGE | pulse 03": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.703703
+  },
+  "DISCHARGE | pulse 04": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 7.185184
+  },
+  "DISCHARGE | pulse 05": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 11.111111
+  },
+  "DISCHARGE | pulse 06": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.629629
+  },
+  "DISCHARGE | pulse 07": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 1.333333
+  },
+  "DISCHARGE | pulse 08": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.629629
+  },
+  "DISCHARGE | pulse 09": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.074073
+  },
+  "DISCHARGE | pulse 10": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 17.740742
+  },
+  "DISCHARGE | pulse 11": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 12": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 11.111111
+  },
+  "DISCHARGE | pulse 13": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 14": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 19.925926
+  },
+  "DISCHARGE | pulse 15": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 11.148149
+  },
+  "DISCHARGE | pulse 16": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.0
+  },
+  "DISCHARGE | pulse 17": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.074073
+  },
+  "DISCHARGE | pulse 18": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.851852
+  },
+  "DISCHARGE | pulse 19": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.0
+  },
+  "DISCHARGE | pulse 20": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 12.444445
+  },
+  "DISCHARGE | pulse 21": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 11.629629
+  },
+  "DISCHARGE | pulse 22": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 7.148149
+  },
+  "DISCHARGE | pulse 23": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.111112
+  },
+  "DISCHARGE | pulse 24": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 25": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 17.740742
+  },
+  "DISCHARGE | pulse 26": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 10.370371
+  },
+  "DISCHARGE | pulse 27": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 28": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 29": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 16.296297
+  },
+  "DISCHARGE | pulse 30": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 31": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 7.925924
+  },
+  "DISCHARGE | pulse 32": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.703703
+  },
+  "DISCHARGE | pulse 33": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 11.629629
+  },
+  "DISCHARGE | pulse 34": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 7.148149
+  },
+  "DISCHARGE | pulse 35": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.703703
+  },
+  "DISCHARGE | pulse 36": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 21.148148
+  },
+  "DISCHARGE | pulse 37": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.925927
+  },
+  "DISCHARGE | pulse 38": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 39": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.0
+  },
+  "DISCHARGE | pulse 40": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 13.222221
+  },
+  "DISCHARGE | pulse 41": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 42": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 16.296297
+  },
+  "DISCHARGE | pulse 43": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 44": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 45": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.240741
+  },
+  "DISCHARGE | pulse 46": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 17.074076
+  },
+  "DISCHARGE | pulse 47": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.703703
+  },
+  "DISCHARGE | pulse 48": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.074073
+  },
+  "DISCHARGE | pulse 49": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.074073
+  },
+  "DISCHARGE | pulse 50": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.0
+  },
+  "DISCHARGE | pulse 51": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 21.148148
+  },
+  "DISCHARGE | pulse 52": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.888889
+  },
+  "DISCHARGE | pulse 53": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.222223
+  },
+  "DISCHARGE | pulse 54": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 10.370371
+  },
+  "DISCHARGE | pulse 55": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 56": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 3.629629
+  },
+  "DISCHARGE | pulse 57": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.407407
+  },
+  "DISCHARGE | pulse 58": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 8.0
+  },
+  "DISCHARGE | pulse 59": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.481482
+  },
+  "DISCHARGE | pulse 60": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 2.222223
+  },
+  "DISCHARGE | pulse 61": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "DISCHARGE | pulse 62": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.925927
+  },
+  "DISCHARGE | pulse 63": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 18.518518
+  },
+  "DISCHARGE | pulse 64": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.925927
+  },
+  "DISCHARGE | pulse 65": {
+    "color": [
+      0.14,
+      0.52,
+      1.0
+    ],
+    "strength": 5.703703
+  },
+  "Ignition | crawling precursor 0": {
+    "color": [
+      0.19,
+      0.62,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "Ignition | crawling precursor 1": {
+    "color": [
+      0.19,
+      0.62,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "Ignition | crawling precursor 2": {
+    "color": [
+      0.19,
+      0.62,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "Ignition | crawling precursor 3": {
+    "color": [
+      0.19,
+      0.62,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "Ignition | crawling precursor 4": {
+    "color": [
+      0.19,
+      0.62,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "Ignition | crawling precursor 5": {
+    "color": [
+      0.19,
+      0.62,
+      1.0
+    ],
+    "strength": 0.0
+  },
+  "SPARKS | cyan white": {
+    "color": [
+      0.25,
+      0.68,
+      1.0
+    ],
+    "strength": 12.0
+  },
+  "VOID | black with softened perimeter": {
+    "color": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "strength": 1.0
+  },
+  "VOID | pure opaque black": {
+    "color": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "strength": 1.0
+  },
+  "VOID | singularity aperture-masked": {
+    "color": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "strength": 1.0
+  }
+}

@@ -1,0 +1,417 @@
+/*
+ * RIFT hero. Matches reference/hero.html from the design handoff.
+ *
+ * The video is 16:10 and, on wide screens, covers the hero. --media-w is the
+ * rendered video width; everything locked to the rift (letter size, letter gap)
+ * is a fraction of it, measured in the 1280px-wide source frame:
+ *   letter = 142 / 1280, gap = 249 / 1280.
+ * On wide screens --media-w = max(100cqw, 160cqh), which gives the handoff's
+ * max(11.094vw, 17.75vh) and max(19.453vw, 31.125vh) against the hero box
+ * rather than the viewport (they differ once min-height kicks in).
+ */
+
+.hero {
+	container: hero / size;
+	position: relative;
+	height: 100svh;
+	min-height: 640px;
+	overflow: hidden;
+	background: var(--surface);
+	color: var(--ink);
+}
+
+.hero-frame,
+.hero-letters {
+	--media-w: max(100cqw, 160cqh);
+	--rift-y: 50%;
+	--gutter: var(--space-16);
+}
+
+/* Rift media (WebGL canvas or video) and the still, centred on the rift. */
+.hero-frame {
+	position: absolute;
+	left: 50%;
+	top: var(--rift-y);
+	width: var(--media-w);
+	aspect-ratio: 16 / 10;
+	translate: -50% -50%;
+	pointer-events: none;
+}
+.hero-frame > video,
+.hero-frame > canvas,
+.hero-still {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+/* The still is a CSS background so it only downloads when it's shown. */
+.hero-still {
+	display: none;
+	background: url("/video/rift-hero-still.jpg") center / cover no-repeat;
+}
+.hero[data-intro="still"] .hero-still {
+	display: block;
+}
+.hero[data-intro="still"] .hero-frame > video {
+	display: none;
+}
+
+/*
+ * WebGL: the post.py vignette shows (as the video's first frame) while the rift
+ * loads, then the canvas fades in over it. The canvas draws the same vignette.
+ */
+.hero-frame[data-media="webgl"] {
+	background: url("/video/rift-hero-poster.jpg") center / cover no-repeat;
+}
+.hero-frame > canvas {
+	opacity: 0;
+	transition: opacity 0.6s ease;
+}
+.hero-frame > canvas[data-visible] {
+	opacity: 1;
+}
+
+.hero-dots {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(
+		rgba(159, 176, 198, 0.12) 1px,
+		transparent 1px
+	);
+	background-size: 32px 32px;
+	mask-image: radial-gradient(
+		ellipse 70% 70% at 50% 50%,
+		transparent 30%,
+		#000 80%
+	);
+}
+
+/* R and FT flank the rift like the wordmark. */
+.hero-letters {
+	position: absolute;
+	inset-inline: 0;
+	top: var(--rift-y);
+	translate: 0 -50%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	pointer-events: none;
+	font-family: var(--font-display);
+	font-weight: 700;
+	font-size: calc(var(--media-w) * 0.11094);
+	line-height: 1;
+	text-shadow: 0 0 28px rgba(77, 198, 226, 0.35);
+}
+.hero-letters > :first-child {
+	justify-self: end;
+	padding-right: calc(var(--media-w) * 0.19453);
+}
+.hero-letters > :last-child {
+	justify-self: start;
+	padding-left: calc(var(--media-w) * 0.19453);
+}
+.hero-letter {
+	display: block;
+	opacity: 0;
+	filter: blur(14px);
+	animation: hero-letter-in 1.3s var(--ease-out-expo)
+		calc(2.2s + var(--intro-shift, 0s)) forwards;
+}
+.hero-letters > :first-child .hero-letter {
+	transform: translateX(-140px);
+}
+.hero-letters > :last-child .hero-letter {
+	transform: translateX(140px);
+}
+@keyframes hero-letter-in {
+	to {
+		opacity: 1;
+		filter: blur(0);
+		transform: none;
+	}
+}
+
+/* Header and bottom UI fade up once the tear has opened. */
+.hero-ui {
+	opacity: 0;
+	transform: translateY(14px);
+	animation: hero-ui-in 0.9s var(--ease-out-expo)
+		calc(2.9s + var(--intro-shift, 0s)) forwards;
+}
+.hero-ui.is-late {
+	animation-delay: calc(3.1s + var(--intro-shift, 0s));
+}
+@keyframes hero-ui-in {
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.hero-header {
+	position: absolute;
+	inset-inline: var(--space-16);
+	top: var(--space-8);
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-8);
+}
+
+.hero-nav-link {
+	font-family: var(--font-wide);
+	font-weight: 500;
+	font-size: 13px;
+	letter-spacing: 0.06em;
+	color: var(--ink);
+	text-decoration: none;
+	transition: color 150ms ease;
+}
+.hero-nav-link:hover {
+	color: var(--cyan);
+}
+
+.hero-main {
+	position: absolute;
+	inset-inline: var(--space-16);
+	bottom: 56px;
+	z-index: 1;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: var(--space-8);
+}
+
+.hero-copy {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	max-width: 420px;
+}
+.hero-tagline {
+	margin: 0;
+	font-family: var(--font-wide);
+	font-weight: 600;
+	font-size: 13px;
+	line-height: 16px;
+	letter-spacing: 0.08em;
+	color: var(--cyan-text);
+}
+.hero-body {
+	margin: 0;
+	font-size: 16px;
+	line-height: 24px;
+	color: var(--ink-muted);
+	text-wrap: pretty;
+}
+
+.hero-kick {
+	display: flex;
+	align-items: center;
+	gap: var(--space-8);
+}
+.hero-when {
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 20px;
+	color: var(--ink-muted);
+	text-align: right;
+}
+.hero-when > b {
+	display: block;
+	color: var(--ink);
+	font-weight: 400;
+}
+
+.hero-cue {
+	position: absolute;
+	left: 50%;
+	bottom: 40px;
+	width: 1px;
+	height: 28px;
+}
+.hero-cue::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--ink);
+	animation: hero-cue 2s ease-in-out infinite;
+}
+@keyframes hero-cue {
+	0%,
+	100% {
+		transform: translateY(0);
+		opacity: 0.4;
+	}
+	50% {
+		transform: translateY(8px);
+		opacity: 1;
+	}
+}
+
+.hero-ember {
+	position: absolute;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: var(--cyan);
+	opacity: 0;
+	animation: hero-rise 9s linear 2.4s infinite;
+}
+.hero-ember[data-tone="ice"] {
+	background: var(--ice);
+	width: 2px;
+	height: 2px;
+}
+.hero-ember[data-tone="violet"] {
+	background: var(--violet);
+}
+@keyframes hero-rise {
+	0% {
+		opacity: 0;
+		transform: translateY(0);
+	}
+	15% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-420px);
+	}
+}
+
+.hero-menu-trigger {
+	display: none;
+}
+
+/* Medium widths: tighter gutters, stack the kickoff details over the CTA. */
+@container hero (width < 1100px) {
+	.hero-header,
+	.hero-main {
+		inset-inline: var(--space-8);
+	}
+	.hero-copy {
+		max-width: 360px;
+	}
+	.hero-kick {
+		flex-direction: column;
+		align-items: flex-end;
+		gap: var(--space-4);
+	}
+}
+
+/*
+ * Narrow or portrait: the cover crop would push R and FT off-screen, so the
+ * video is scaled down to fit R ✦ FT across the width (FT's far edge is 0.3576
+ * of the video width from centre) or 101% of the hero height, whichever is
+ * smaller, and sits in the upper part of the screen. The copy stacks below it.
+ */
+@container hero (width < 640px) or (aspect-ratio < 23 / 20) {
+	.hero-frame,
+	.hero-letters {
+		--media-w: min(calc((50cqw - var(--space-4)) / 0.3576), 101cqh);
+		--rift-y: 40%;
+	}
+	.hero-frame {
+		mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
+	}
+	.hero-letters {
+		text-shadow: 0 0 18px rgba(77, 198, 226, 0.35);
+	}
+	.hero-letters > :first-child .hero-letter {
+		transform: translateX(-60px);
+	}
+	.hero-letters > :last-child .hero-letter {
+		transform: translateX(60px);
+	}
+
+	.hero-header {
+		inset-inline: var(--space-4);
+		top: var(--space-4);
+		--lockup-utra: 28px;
+		--lockup-rift: 42px;
+	}
+	.hero-nav {
+		display: none;
+	}
+	.hero-menu-trigger {
+		display: inline-flex;
+	}
+
+	.hero-main {
+		inset-inline: var(--space-4);
+		bottom: var(--space-8);
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--space-6);
+	}
+	.hero-copy {
+		max-width: 480px;
+	}
+	.hero-kick {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+	}
+	.hero-when {
+		text-align: left;
+	}
+	.hero-cue {
+		display: none;
+	}
+}
+
+@container hero (width < 400px) {
+	.hero-kick > a {
+		flex: 1 0 100%;
+	}
+}
+
+/* No video, no animation: show the settled frame and all UI immediately. */
+@media (prefers-reduced-motion: reduce) {
+	.hero .hero-frame > video,
+	.hero .hero-frame > canvas {
+		display: none;
+	}
+	.hero .hero-still {
+		display: block;
+	}
+	.hero-cue::before {
+		animation: none;
+		opacity: 0.6;
+	}
+	.hero-ember {
+		display: none;
+	}
+	.hero .hero-letter,
+	.hero .hero-ui {
+		animation: none;
+		opacity: 1;
+		filter: none;
+		transform: none;
+	}
+}
+.hero[data-intro="still"] .hero-letter,
+.hero[data-intro="still"] .hero-ui {
+	animation: none;
+	opacity: 1;
+	filter: none;
+	transform: none;
+}
+
+/* Loading: hold the intro so the letters land with the tear (RiftHero.tsx). */
+.hero[data-rift="loading"] .hero-letter,
+.hero[data-rift="loading"] .hero-ui {
+	animation-play-state: paused;
+}
+/* Too slow to wait for: run the intro over the settled still until the rift arrives. */
+.hero[data-rift="slow"] .hero-still {
+	display: block;
+}
