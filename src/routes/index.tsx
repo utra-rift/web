@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import RiftHero from "#/components/hero/RiftHero";
+import { HomeSections, SiteFooter } from "#/components/home/HomeSections";
 
 const DESCRIPTION =
 	"Paintball for robots. Become a founding member for UTRA's newest team, competing at the ARC Championships.";
@@ -31,5 +32,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-	return <RiftHero />;
+	return (
+		<>
+			<main>
+				<RiftHero />
+				<HomeSections />
+			</main>
+			<SiteFooter />
+		</>
+	);
 }

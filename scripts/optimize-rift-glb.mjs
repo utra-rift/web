@@ -5,12 +5,13 @@
 //
 // - Strips normals and tangents (the rift's ShaderMaterials don't read them) and UVs,
 //   except on the ignition strands, whose shader grows them along uv.x.
-// - Replaces the geometry of the crawling arcs with a one-triangle placeholder:
-//   rift-curves.js rebuilds those tubes from rift-effect-curves.json every frame.
-//   The nodes, materials and names stay, because the loader finds them by name.
+// - Older exports only: replaces the geometry of the crawling arcs with a one-triangle
+//   placeholder (rift-curves.js rebuilds those tubes every frame). Since threejs-rift
+//   56e54fd the GLB already ships them as mesh-less nodes, so this is a no-op there.
 // - Snaps positions to a 1/256-unit grid (about 0.04 px on screen). They stay float32 in
 //   each mesh's local space, which the shaders depend on, so glTF quantization is out;
-//   the zeroed low bits are what make the file compress (908 KB -> 351 KB with brotli).
+//   the zeroed low bits are what make the file compress. Upstream's lossless meshopt GLB
+//   is 1.7 MB (910 KB gzipped); after this it is 844 KB (325 KB gzipped).
 // - Applies EXT_meshopt_compression. Only accessors are deduplicated, so material names
 //   survive.
 import { readFile, writeFile } from "node:fs/promises";

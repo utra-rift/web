@@ -8,6 +8,7 @@ import {
 	useState,
 } from "react";
 import Lockup from "#/components/brand/Lockup";
+import { JOIN_HREF, KICKOFF, NAV_LINKS } from "#/components/home/content";
 import { Button } from "#/components/ui/button";
 import {
 	Sheet,
@@ -32,14 +33,6 @@ const LETTERS_AT = 2.2;
 /** How long the intro waits for the WebGL rift before running without it. */
 const RIFT_WAIT_MS = 2500;
 
-// TODO: link destinations are not decided yet.
-const NAV_LINKS = [
-	{ label: "ROBOTS", href: "#" },
-	{ label: "TEAM", href: "#" },
-	{ label: "SPONSORS", href: "#" },
-];
-const JOIN_HREF = "#";
-
 const EMBERS = [
 	{ left: 12, top: 91, delay: 0 },
 	{ left: 18, top: 84, delay: 4.5, tone: "ice" },
@@ -55,7 +48,7 @@ const EMBERS = [
 	{ left: 88, top: 97, delay: 4.1, tone: "ice" },
 ];
 
-const KICKOFF_FACTS = ["BA1130", "OCT 2", "7-8 PM"];
+const KICKOFF_FACTS = [KICKOFF.room, KICKOFF.date, KICKOFF.time];
 
 type IntroMode = "play" | "still";
 /** WebGL only: "loading" holds the intro, "slow" gave up waiting and shows the still underneath. */
@@ -149,7 +142,7 @@ export default function RiftHero() {
 				<MobileMenu />
 			</header>
 
-			<main className="hero-main">
+			<div className="hero-main">
 				<h1 className="sr-only">UTRA RIFT</h1>
 
 				<div className="hero-copy hero-ui is-late">
@@ -179,7 +172,7 @@ export default function RiftHero() {
 						<a href={JOIN_HREF}>Join the team</a>
 					</Button>
 				</div>
-			</main>
+			</div>
 
 			<div className="hero-cue hero-ui is-late" aria-hidden="true" />
 		</div>
@@ -222,7 +215,13 @@ function RiftCanvas({
 
 		import("./rift-scene")
 			.then(async ({ createRiftRenderer, RIFT_START, RIFT_VIDEO_OFFSET }) => {
-				const created = await createRiftRenderer(canvas);
+				const created = await createRiftRenderer(canvas, {
+					// Mouse parallax: the letters and dot grid move with the rift (hero.css).
+					onView: (x, y) => {
+						hero.style.setProperty("--view-x", x.toFixed(4));
+						hero.style.setProperty("--view-y", y.toFixed(4));
+					},
+				});
 				if (disposed) {
 					created.dispose();
 					return;
@@ -331,8 +330,13 @@ function RiftVideo({ heroRef, onFail }: MediaProps) {
 }
 
 function MobileMenu() {
+	const [open, setOpen] = useState(false);
+	// Section the user picked; scrolled to once the sheet has closed and
+	// released its scroll lock, instead of returning focus to the trigger.
+	const target = useRef<string | undefined>(undefined);
+
 	return (
-		<Sheet>
+		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
 				<Button
 					variant="ghost"
@@ -347,6 +351,16 @@ function MobileMenu() {
 				side="right"
 				data-theme="dark"
 				className="w-full px-4 pt-20 pb-8 sm:max-w-sm"
+				onCloseAutoFocus={(event) => {
+					const section = target.current
+						? document.querySelector<HTMLElement>(target.current)
+						: null;
+					target.current = undefined;
+					if (!section) return;
+					event.preventDefault();
+					history.pushState(null, "", `#${section.id}`);
+					section.scrollIntoView();
+				}}
 			>
 				<SheetTitle className="sr-only">Menu</SheetTitle>
 				<SheetDescription className="sr-only">Site navigation</SheetDescription>
@@ -355,6 +369,11 @@ function MobileMenu() {
 						<a
 							key={link.label}
 							href={link.href}
+							onClick={(event) => {
+								event.preventDefault();
+								target.current = link.href;
+								setOpen(false);
+							}}
 							className="border-b py-4 font-wide text-lg font-medium tracking-[0.06em] text-ink transition-colors hover:text-cyan"
 						>
 							{link.label}

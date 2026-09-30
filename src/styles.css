@@ -4,10 +4,18 @@
 @import "@fontsource-variable/jetbrains-mono/wght.css";
 @import "./design/tokens.css";
 @import "./components/hero/hero.css";
+@import "./components/home/home.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* Widescreen (trial licence, see README). WOFF2 converted from the handoff TTFs. */
+/* Ultra Expanded, the widest cut: the hero's R and FT, like the poster's RIFT. */
+@font-face {
+	font-family: "Widescreen UEx";
+	src: url("/fonts/WidescreenUEx_Trial_Bd.woff2") format("woff2");
+	font-weight: 700;
+	font-display: swap;
+}
 @font-face {
 	font-family: "Widescreen Ex";
 	src: url("/fonts/WidescreenEx_Trial_Bd.woff2") format("woff2");
@@ -47,6 +55,7 @@
 
 	--font-*: initial;
 	--font-display: "Widescreen Ex", "Lexend Giga", system-ui, sans-serif;
+	--font-display-wide: "Widescreen UEx", "Widescreen Ex", "Lexend Giga", system-ui, sans-serif;
 	--font-wide: "Widescreen", "Lexend Variable", "Lexend", system-ui, sans-serif;
 	--font-sans: "Lexend Variable", "Lexend", system-ui, sans-serif;
 	--font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, monospace;

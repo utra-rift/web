@@ -15,7 +15,7 @@ export const Route = createRootRoute({
 		links: [
 			{
 				rel: "preload",
-				href: "/fonts/WidescreenEx_Trial_Bd.woff2",
+				href: "/fonts/WidescreenUEx_Trial_Bd.woff2",
 				as: "font",
 				type: "font/woff2",
 				crossOrigin: "anonymous",

@@ -1,11 +1,12 @@
-// Vendored from https://github.com/RunTheBot/threejs-rift (commit 52eacbd).
+// Vendored from https://github.com/RunTheBot/threejs-rift (commit 56e54fd).
 // Local changes, kept minimal so updates can be dropped in:
 //   1. Assets load from ASSET_BASE (public/rift/) instead of './'.
 //   2. rift.glb loads through loadRiftGltf (gzipped + meshopt; see scripts/optimize-rift-glb.mjs).
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { loadRiftGltf } from '../load-rift-gltf';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { createAnimatedTube } from './rift-curves.js';
+import { loadRiftGltf } from '../load-rift-gltf';
 
 const ASSET_BASE = '/rift/';
 const APERTURE_Y = -9.354106903076172;
@@ -170,9 +171,8 @@ function phaseFromName(name) {
   return (h >>> 0) / 4294967295 * Math.PI * 2;
 }
 
-function energyMaterial(mesh, source, timeUniform, openingProgress, openingScale, originalName) {
-  const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-  const data = source[material?.name] || { color: [0.14, 0.52, 1.0], strength: 4.0 };
+function energyMaterial(materialName, source, timeUniform, openingProgress, openingScale, originalName) {
+  const data = source[materialName] || { color: [0.14, 0.52, 1.0], strength: 4.0 };
   const name = originalName;
   const corona = name.startsWith('Corona');
   const ejection = name.startsWith('Ejection');
@@ -180,7 +180,7 @@ function energyMaterial(mesh, source, timeUniform, openingProgress, openingScale
   const ignition = name.startsWith('Ignition');
   const opacity = corona ? (name.includes('soft') ? 0.10 : 0.20) : ejection ? 0.28 : seam ? 0.90 : ignition ? 0.85 : 0.22;
   return new THREE.ShaderMaterial({
-    name: `Rift energy | ${material?.name || name}`,
+    name: `Rift energy | ${materialName || name}`,
     uniforms: {
       uColor: { value: new THREE.Vector3(...data.color) },
       uStrength: { value: data.strength },
@@ -269,6 +269,7 @@ export async function loadRift(camera) {
   const riftCoordinates = [];
   const inverseRoot = new THREE.Matrix4();
   function sourceName(object) {
+    if (object.userData.riftSourceName) return object.userData.riftSourceName;
     const association = gltf.parser.associations.get(object);
     return association?.nodes !== undefined
       ? gltf.parser.json.nodes[association.nodes]?.name || object.name
@@ -277,6 +278,21 @@ export async function loadRift(camera) {
   const root = gltf.scene.children.find((object) => sourceName(object) === 'RIFT CONTROL | position and opening');
   if (!root) throw new Error('Rift control was not found in rift.glb');
   root.position.set(0, 0, 0);
+  // The compact GLB stores transform nodes for lightning whose geometry is
+  // rebuilt from curve shape keys. Attach a mesh without duplicating that data.
+  const proceduralNodes = [];
+  gltf.scene.traverse((object) => {
+    if (!object.isMesh && object.userData.riftMaterial && effectCurves[sourceName(object)]?.shapes) {
+      proceduralNodes.push(object);
+    }
+  });
+  for (const object of proceduralNodes) {
+    const mesh = new THREE.Mesh(new THREE.BufferGeometry(), null);
+    mesh.name = `${object.name}__procedural`;
+    mesh.userData.riftSourceName = sourceName(object);
+    mesh.userData.riftMaterial = object.userData.riftMaterial;
+    object.add(mesh);
+  }
   gltf.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
     const originalName = sourceName(mesh);
@@ -290,8 +306,9 @@ export async function loadRift(camera) {
       mesh.material = logoMaterial;
       mesh.renderOrder = 2;
     } else {
-      const materialName = Array.isArray(mesh.material) ? mesh.material[0]?.name : mesh.material?.name;
-      mesh.material = energyMaterial(mesh, source, timeUniform, openingProgress, openingScale, originalName);
+      const materialName = mesh.userData.riftMaterial
+        || (Array.isArray(mesh.material) ? mesh.material[0]?.name : mesh.material?.name);
+      mesh.material = energyMaterial(materialName, source, timeUniform, openingProgress, openingScale, originalName);
       if (emission[materialName]) {
         animatedEmissions.push([mesh.material.uniforms.uStrength, emission[materialName]]);
         mesh.material.uniforms.uAnimatedEmission.value = 1;

@@ -1,0 +1,74 @@
+/* Sections below the hero (HomeSections.tsx). Layout lives in Tailwind classes. */
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	/* Content rises in as it scrolls into view, where scroll timelines exist. */
+	@supports (animation-timeline: view()) {
+		.reveal {
+			animation: reveal-in linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 35%;
+		}
+	}
+}
+@keyframes reveal-in {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+/* Season timeline: a vertical rail on small screens, horizontal from lg. */
+.season-phase {
+	border-color: var(--line);
+}
+.season-phase[data-status="past"] {
+	border-color: var(--ink-muted);
+}
+.season-phase[data-status="now"] {
+	border-color: var(--cyan);
+}
+.season-dot {
+	position: absolute;
+	left: -5px;
+	top: 6px;
+	width: 8px;
+	height: 8px;
+	background: var(--surface);
+	border: 2px solid var(--line);
+}
+.season-phase[data-status="past"] .season-dot {
+	background: var(--ink-muted);
+	border-color: var(--ink-muted);
+}
+.season-phase[data-status="now"] .season-dot {
+	background: var(--cyan);
+	border-color: var(--cyan);
+	box-shadow: 0 0 12px rgba(77, 198, 226, 0.6);
+}
+@media (width >= 64rem) {
+	.season-dot {
+		left: 0;
+		top: -5px;
+	}
+}
+
+/* Kickoff band: the one glow on the page, behind the spark. */
+.kickoff::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(
+		rgba(244, 251, 252, 0.08) 1px,
+		transparent 1px
+	);
+	background-size: 32px 32px;
+	mask-image: linear-gradient(90deg, #000, transparent 70%);
+	pointer-events: none;
+}
+.kickoff-mark {
+	filter: drop-shadow(var(--glow-spark));
+}

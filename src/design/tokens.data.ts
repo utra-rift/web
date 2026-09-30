@@ -195,6 +195,8 @@ const tokens = {
 		],
 		families: {
 			display: '"Widescreen Ex", "Lexend Giga", system-ui, sans-serif',
+			"display-wide":
+				'"Widescreen UEx", "Widescreen Ex", "Lexend Giga", system-ui, sans-serif',
 			wide: '"Widescreen", "Lexend", system-ui, sans-serif',
 			sans: '"Lexend", system-ui, sans-serif',
 			mono: '"JetBrains Mono", ui-monospace, Menlo, monospace',

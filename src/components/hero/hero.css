@@ -23,19 +23,34 @@
 .hero-frame,
 .hero-letters {
 	--media-w: max(100cqw, 160cqh);
+	/*
+	 * R ✦ FT is lopsided (FT is almost twice as wide as R), so the rift and the
+	 * letters move left together until the group is centred. From the
+	 * Widescreen UEx Bold metrics: R reaches 0.3246 of the media width left of
+	 * the rift, FT 0.4557 right of it, so the shift is half the difference.
+	 */
+	--group-shift: calc(var(--media-w) * -0.0656);
 	--rift-y: 50%;
 	--gutter: var(--space-16);
 }
 
 /* Rift media (WebGL canvas or video) and the still, centred on the rift. */
+/*
+ * The frame is the 16:10 video area, widened by the group shift on each side so
+ * that, once moved left, it still reaches the right edge. Only the width grows:
+ * the camera keeps a fixed vertical field of view, so the rift keeps its size.
+ * Images are fitted to the height over the vignette's edge colour for the same
+ * reason.
+ */
 .hero-frame {
 	position: absolute;
-	left: 50%;
+	left: calc(50% + var(--group-shift));
 	top: var(--rift-y);
-	width: var(--media-w);
-	aspect-ratio: 16 / 10;
+	width: calc(var(--media-w) * (1 + 2 * 0.0656));
+	height: calc(var(--media-w) * 0.625);
 	translate: -50% -50%;
 	pointer-events: none;
+	background-color: #04070e;
 }
 .hero-frame > video,
 .hero-frame > canvas,
@@ -44,13 +59,13 @@
 	inset: 0;
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
+	object-fit: contain;
 	display: block;
 }
 /* The still is a CSS background so it only downloads when it's shown. */
 .hero-still {
 	display: none;
-	background: url("/video/rift-hero-still.jpg") center / cover no-repeat;
+	background: url("/video/rift-hero-still.jpg") center / auto 100% no-repeat;
 }
 .hero[data-intro="still"] .hero-still {
 	display: block;
@@ -64,7 +79,8 @@
  * loads, then the canvas fades in over it. The canvas draws the same vignette.
  */
 .hero-frame[data-media="webgl"] {
-	background: url("/video/rift-hero-poster.jpg") center / cover no-repeat;
+	background:
+		url("/video/rift-hero-poster.jpg") center / auto 100% no-repeat #04070e;
 }
 .hero-frame > canvas {
 	opacity: 0;
@@ -76,7 +92,13 @@
 
 .hero-dots {
 	position: absolute;
-	inset: 0;
+	inset: -16px;
+	/* Far layer of the mouse parallax: drifts slightly away from the cursor. */
+	transform: translate3d(
+		calc(var(--view-x, 0) * -8px),
+		calc(var(--view-y, 0) * -5px),
+		0
+	);
 	pointer-events: none;
 	background-image: radial-gradient(
 		rgba(159, 176, 198, 0.12) 1px,
@@ -95,13 +117,24 @@
 	position: absolute;
 	inset-inline: 0;
 	top: var(--rift-y);
-	translate: 0 -50%;
+	translate: var(--group-shift) -50%;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	/* minmax(0, …) keeps the halves equal even when FT is wider than its half. */
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	pointer-events: none;
-	font-family: var(--font-display);
+	font-family: var(--font-display-wide);
 	font-weight: 700;
 	font-size: calc(var(--media-w) * 0.11094);
+	/*
+	 * Near layer of the mouse parallax (--view-x/y come from the WebGL rift, -1..1).
+	 * The rift itself drifts about 0.018 / 0.010 of the media width at 7 degrees;
+	 * the letters move a little more, so R and FT sit slightly in front of it.
+	 */
+	transform: translate3d(
+		calc(var(--view-x, 0) * var(--media-w) * 0.024),
+		calc(var(--view-y, 0) * var(--media-w) * 0.013),
+		0
+	);
 	line-height: 1;
 	text-shadow: 0 0 28px rgba(77, 198, 226, 0.35);
 }
@@ -295,6 +328,9 @@
 	.hero-main {
 		inset-inline: var(--space-8);
 	}
+	.hero-nav {
+		gap: var(--space-6);
+	}
 	.hero-copy {
 		max-width: 360px;
 	}
@@ -307,14 +343,15 @@
 
 /*
  * Narrow or portrait: the cover crop would push R and FT off-screen, so the
- * video is scaled down to fit R ✦ FT across the width (FT's far edge is 0.3576
- * of the video width from centre) or 101% of the hero height, whichever is
- * smaller, and sits in the upper part of the screen. The copy stacks below it.
+ * video is scaled down to fit R ✦ FT across the width (once centred, the group
+ * reaches 0.3901 of the video width either side) or to 101% of the hero
+ * height, whichever is smaller, and sits in the upper part of the screen. The
+ * copy stacks below it.
  */
 @container hero (width < 640px) or (aspect-ratio < 23 / 20) {
 	.hero-frame,
 	.hero-letters {
-		--media-w: min(calc((50cqw - var(--space-4)) / 0.3576), 101cqh);
+		--media-w: min(calc((50cqw - var(--space-4)) / 0.3901), 101cqh);
 		--rift-y: 40%;
 	}
 	.hero-frame {

@@ -126,17 +126,27 @@ function disposeRift(root: Scene) {
 /** Camera framing matched to the approved video (see README). */
 const CAMERA = { fov: 45, distance: 115, zoom: 0.78, offsetY: 0 };
 /**
- * Post-processing (bloom, exposure before the post.py roll-off) and the playback
- * rate of the settled loop. The opening always plays in real time so the intro
- * stays in sync; after it, idleSpeed slows the discharge flashes, shader pulses
- * and flying crackles, which shimmer too fast at 1x.
+ * Parallax pivot: the camera orbits a point this far behind the rift, so the rift
+ * drifts toward the cursor (as well as turning) instead of spinning in place.
+ */
+const PIVOT_DEPTH = 40;
+/**
+ * Post-processing (bloom, exposure before the post.py roll-off), the playback
+ * rate of the settled loop, and mouse parallax.
+ * - idleSpeed: the opening always plays in real time so the intro stays in sync;
+ *   after it, this slows the discharge flashes, pulses and flying crackles.
+ * - parallax: how far (degrees) the camera orbits as the mouse crosses the
+ *   screen, so the rift drifts and turns toward the cursor and its layers shift
+ *   in depth. parallaxEase is how quickly it catches up (per second).
  */
 const LOOK = {
-	bloomStrength: 0.3,
+	bloomStrength: 0.15,
 	bloomRadius: 0.2,
 	bloomThreshold: 0.9,
 	exposure: 1.6,
 	idleSpeed: 0.4,
+	parallax: 7,
+	parallaxEase: 3,
 };
 /** Cap on rendered pixels (width x height x DPR^2), to keep bloom cheap on big screens. */
 const PIXEL_BUDGET = 3_200_000;
@@ -147,13 +157,22 @@ export type RiftRenderer = {
 	/** Renders one frame at an exact scene time and stops the loop (for the still fallback / debugging). */
 	renderAt(sceneTime: number): void;
 	setVisible(visible: boolean): void;
-	/** Adjusts the post-processing live (for matching the look against the video). */
+	/** Adjusts the look, loop speed and parallax live (see LOOK). */
 	tune(params: Partial<typeof LOOK>): void;
 	dispose(): void;
 };
 
+export type RiftRendererOptions = {
+	/**
+	 * Called each frame the eased pointer moves, with x/y in -1..1, so page layers
+	 * (the letters, the dot grid) can move with the rift.
+	 */
+	onView?: (x: number, y: number) => void;
+};
+
 export async function createRiftRenderer(
 	canvas: HTMLCanvasElement,
+	{ onView }: RiftRendererOptions = {},
 ): Promise<RiftRenderer> {
 	const renderer = new WebGLRenderer({
 		canvas,
@@ -164,10 +183,22 @@ export async function createRiftRenderer(
 	renderer.setClearColor(0x000000, 0);
 
 	const camera = new PerspectiveCamera(CAMERA.fov, 16 / 10, 0.1, 500);
-	camera.position.set(0, CAMERA.offsetY, CAMERA.distance);
-	camera.lookAt(0, CAMERA.offsetY, 0);
 	camera.zoom = CAMERA.zoom;
 	camera.updateProjectionMatrix();
+	let look = { ...LOOK };
+	/** Orbits the camera around the rift; x/y are -1..1 across the screen. */
+	const placeCamera = (x: number, y: number) => {
+		const yaw = (-x * look.parallax * Math.PI) / 180;
+		const pitch = (y * look.parallax * 0.6 * Math.PI) / 180;
+		const radius = CAMERA.distance + PIVOT_DEPTH;
+		camera.position.set(
+			Math.sin(yaw) * Math.cos(pitch) * radius,
+			CAMERA.offsetY + Math.sin(pitch) * radius,
+			Math.cos(yaw) * Math.cos(pitch) * radius - PIVOT_DEPTH,
+		);
+		camera.lookAt(0, CAMERA.offsetY, -PIVOT_DEPTH);
+	};
+	placeCamera(0, 0);
 
 	const scene = new Scene();
 	const rift = await loadRift(camera);
@@ -218,7 +249,21 @@ export async function createRiftRenderer(
 	let visible = true;
 	let sceneTime = 0;
 	let previous = 0;
-	let idleSpeed = LOOK.idleSpeed;
+
+	// Mouse parallax. Touch and pens don't hover, so they leave the camera centred.
+	const pointer = { x: 0, y: 0 };
+	const view = { x: 0, y: 0 };
+	const onPointerMove = (event: PointerEvent) => {
+		if (event.pointerType !== "mouse") return;
+		pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+		pointer.y = (event.clientY / window.innerHeight) * 2 - 1;
+	};
+	const onPointerLeave = () => {
+		pointer.x = 0;
+		pointer.y = 0;
+	};
+	window.addEventListener("pointermove", onPointerMove, { passive: true });
+	document.documentElement.addEventListener("pointerleave", onPointerLeave);
 
 	const draw = (time: number) => {
 		rift.update(time);
@@ -230,11 +275,20 @@ export async function createRiftRenderer(
 		if (!running) return;
 		const delta = Math.min((now - previous) / 1000, 0.1);
 		previous = now;
-		sceneTime += delta * (sceneTime >= RIFT_IDLE_START ? idleSpeed : 1);
+		sceneTime += delta * (sceneTime >= RIFT_IDLE_START ? look.idleSpeed : 1);
 		if (sceneTime >= RIFT_DURATION) {
 			sceneTime =
 				RIFT_IDLE_START +
 				((sceneTime - RIFT_DURATION) % (RIFT_DURATION - RIFT_IDLE_START));
+		}
+		const ease = 1 - Math.exp(-delta * look.parallaxEase);
+		const dx = (pointer.x - view.x) * ease;
+		const dy = (pointer.y - view.y) * ease;
+		if (Math.abs(dx) + Math.abs(dy) > 1e-5) {
+			view.x += dx;
+			view.y += dy;
+			placeCamera(view.x, view.y);
+			onView?.(view.x, view.y);
 		}
 		if (visible) draw(sceneTime);
 		frame = requestAnimationFrame(tick);
@@ -257,18 +311,22 @@ export async function createRiftRenderer(
 			visible = value;
 		},
 		tune(params) {
-			const look = { ...LOOK, ...params };
+			look = { ...look, ...params };
 			bloom.strength = look.bloomStrength;
 			bloom.radius = look.bloomRadius;
 			bloom.threshold = look.bloomThreshold;
 			composite.uniforms.uExposure.value = look.exposure;
-			idleSpeed = look.idleSpeed;
 			if (!running) draw(sceneTime);
 		},
 		dispose() {
 			running = false;
 			cancelAnimationFrame(frame);
 			observer.disconnect();
+			window.removeEventListener("pointermove", onPointerMove);
+			document.documentElement.removeEventListener(
+				"pointerleave",
+				onPointerLeave,
+			);
 			disposeRift(scene);
 			bloom.dispose();
 			composer.dispose();

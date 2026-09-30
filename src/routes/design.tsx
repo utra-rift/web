@@ -69,7 +69,11 @@ const TYPE_CLASS: Record<string, string> = {
 };
 
 const FAMILY_SAMPLES: Record<string, { className: string; sample: string }> = {
-	display: { className: "font-display font-bold uppercase", sample: "R ✦ FT" },
+	display: { className: "font-display font-bold uppercase", sample: "Kickoff" },
+	"display-wide": {
+		className: "font-display-wide font-bold uppercase",
+		sample: "R ✦ FT",
+	},
 	wide: {
 		className: "font-wide font-semibold uppercase",
 		sample: "Paintball for robots",
@@ -372,7 +376,7 @@ function TypeSection() {
 		<Section
 			id="type"
 			title="Type"
-			intro="Widescreen Ex for display, always uppercase. Widescreen for labels and buttons. Lexend carries everything else; JetBrains Mono is for data. Don't mix in other faces."
+			intro="Widescreen Ex for display, always uppercase; Widescreen UEx, the widest cut, for the hero's R ✦ FT. Widescreen for labels and buttons. Lexend carries everything else; JetBrains Mono is for data. Don't mix in other faces."
 		>
 			<SubHeading>Families</SubHeading>
 			<div className="divide-y border-y">
