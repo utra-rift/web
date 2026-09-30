@@ -197,19 +197,22 @@ function RiftCanvas({
 	onState,
 	onFail,
 }: MediaProps & { onState: (state: RiftState) => void }) {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
 		const hero = heroRef.current;
-		const canvas = canvasRef.current;
+		const container = containerRef.current;
 		// This effect runs before RiftHero's own, so check reduced motion here too.
 		const reduce = window.matchMedia(
 			"(prefers-reduced-motion: reduce)",
 		).matches;
-		if (!hero || !canvas || reduce) return;
+		if (!hero || !container || reduce) return;
 
 		let disposed = false;
+		const parallaxLayers = hero.querySelectorAll<HTMLElement>(
+			".hero-letters, .hero-dots",
+		);
 		let renderer: RiftRenderer | undefined;
 		let observer: IntersectionObserver | undefined;
 
@@ -223,11 +226,15 @@ function RiftCanvas({
 
 		import("./rift-scene")
 			.then(async ({ createRiftRenderer, RIFT_START, RIFT_VIDEO_OFFSET }) => {
-				const created = await createRiftRenderer(canvas, {
+				const created = await createRiftRenderer(container, {
 					// Mouse parallax: the letters and dot grid move with the rift (hero.css).
+					// Set on the two layers only, not the hero, so each frame restyles
+					// just them instead of the whole hero subtree.
 					onView: (x, y) => {
-						hero.style.setProperty("--view-x", x.toFixed(4));
-						hero.style.setProperty("--view-y", y.toFixed(4));
+						for (const layer of parallaxLayers) {
+							layer.style.setProperty("--view-x", x.toFixed(4));
+							layer.style.setProperty("--view-y", y.toFixed(4));
+						}
 					},
 				});
 				if (disposed) {
@@ -255,7 +262,7 @@ function RiftCanvas({
 				observer = new IntersectionObserver(([entry]) =>
 					renderer?.setVisible(entry.isIntersecting),
 				);
-				observer.observe(canvas);
+				observer.observe(container);
 			})
 			.catch((error: unknown) => {
 				console.error("WebGL rift failed, showing the still frame.", error);
@@ -271,7 +278,11 @@ function RiftCanvas({
 	}, [heroRef, onState, onFail]);
 
 	return (
-		<canvas ref={canvasRef} data-visible={visible || undefined} tabIndex={-1} />
+		<div
+			ref={containerRef}
+			className="hero-canvas"
+			data-visible={visible || undefined}
+		/>
 	);
 }
 

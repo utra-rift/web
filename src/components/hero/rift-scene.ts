@@ -148,8 +148,25 @@ const LOOK = {
 	parallax: 7,
 	parallaxEase: 3,
 };
-/** Cap on rendered pixels (width x height x DPR^2), to keep bloom cheap on big screens. */
-const PIXEL_BUDGET = 3_200_000;
+/*
+ * Render cost. At 3.2 MP with 4x MSAA and full-resolution bloom, a frame took
+ * about 8.3 ms on an M4 Pro, all of a 120 Hz frame, which starved macOS itself.
+ * So: frames are capped at 60 fps (the Blender animation is 30 fps content),
+ * bloom runs at half resolution, the pixel budget is lower, and the budget
+ * steps down further on machines that can't hold the frame rate.
+ */
+/** Cap on rendered pixels (width x height x DPR^2). */
+const PIXEL_BUDGET = 2_400_000;
+/** The adaptive step-down never goes below this. */
+const MIN_PIXEL_BUDGET = 900_000;
+const FRAME_MS = 1000 / 60;
+/** Render cost knobs, exposed through tune() in dev for benchmarking. */
+const QUALITY = {
+	maxDpr: 1.5,
+	pixelBudget: PIXEL_BUDGET,
+	msaa: 4,
+	bloom: true,
+};
 
 export type RiftRenderer = {
 	/** Starts the loop, with the timeline at the given scene time (seconds). */
@@ -158,7 +175,7 @@ export type RiftRenderer = {
 	renderAt(sceneTime: number): void;
 	setVisible(visible: boolean): void;
 	/** Adjusts the look, loop speed and parallax live (see LOOK). */
-	tune(params: Partial<typeof LOOK>): void;
+	tune(params: Partial<typeof LOOK & typeof QUALITY>): void;
 	dispose(): void;
 };
 
@@ -170,15 +187,25 @@ export type RiftRendererOptions = {
 	onView?: (x: number, y: number) => void;
 };
 
+/**
+ * Renders the rift into a new canvas inside `container`. Each renderer owns its
+ * canvas (a canvas has one WebGL context; sharing it between an old and a new
+ * renderer, as React's double-mount in dev does, breaks the survivor), and
+ * dispose() removes it and releases the context.
+ */
 export async function createRiftRenderer(
-	canvas: HTMLCanvasElement,
+	container: HTMLElement,
 	{ onView }: RiftRendererOptions = {},
 ): Promise<RiftRenderer> {
+	const canvas = document.createElement("canvas");
+	canvas.setAttribute("aria-hidden", "true");
+	container.append(canvas);
 	const renderer = new WebGLRenderer({
 		canvas,
 		antialias: false,
 		alpha: false,
-		powerPreference: "high-performance",
+		// "high-performance" makes dual-GPU Macs switch GPUs; the rift doesn't need it.
+		powerPreference: "default",
 	});
 	renderer.setClearColor(0x000000, 0);
 
@@ -206,7 +233,7 @@ export async function createRiftRenderer(
 
 	const target = new WebGLRenderTarget(1, 1, {
 		type: HalfFloatType,
-		samples: 4,
+		samples: QUALITY.msaa,
 	});
 	const composer = new EffectComposer(renderer, target);
 	composer.addPass(new RenderPass(scene, camera));
@@ -220,18 +247,27 @@ export async function createRiftRenderer(
 	bloom.bloomTintColors = bloom.bloomTintColors.map(
 		() => new Vector3(0.55, 0.85, 1.0),
 	);
+	// Bloom is a soft glow: half-resolution input looks the same and costs a
+	// quarter as much. Its composite still draws at full size.
+	const setBloomSize = bloom.setSize.bind(bloom);
+	bloom.setSize = (width: number, height: number) =>
+		setBloomSize(
+			Math.max(1, Math.round(width / 2)),
+			Math.max(1, Math.round(height / 2)),
+		);
 	composer.addPass(bloom);
 	const composite = new ShaderPass(compositeShader);
 	composite.uniforms.uExposure.value = LOOK.exposure;
 	composer.addPass(composite);
 
+	let quality = { ...QUALITY };
 	const resize = () => {
 		const width = Math.max(1, canvas.clientWidth);
 		const height = Math.max(1, canvas.clientHeight);
 		const ratio = Math.min(
 			window.devicePixelRatio || 1,
-			1.5,
-			Math.sqrt(PIXEL_BUDGET / (width * height)),
+			quality.maxDpr,
+			Math.sqrt(quality.pixelBudget / (width * height)),
 		);
 		renderer.setPixelRatio(ratio);
 		renderer.setSize(width, height, false);
@@ -270,9 +306,34 @@ export async function createRiftRenderer(
 		composer.render();
 	};
 
+	// Adaptive quality: if the frame rate sags below ~50 fps, render fewer pixels.
+	const pace = { frames: 0, time: 0 };
+	const adapt = (interval: number) => {
+		if (!visible || interval > 100) return;
+		pace.frames++;
+		pace.time += interval;
+		if (pace.frames < 60) return;
+		const average = pace.time / pace.frames;
+		pace.frames = 0;
+		pace.time = 0;
+		if (average > 1000 / 50 && quality.pixelBudget > MIN_PIXEL_BUDGET) {
+			quality.pixelBudget = Math.max(
+				MIN_PIXEL_BUDGET,
+				quality.pixelBudget * 0.7,
+			);
+			resize();
+		}
+	};
+
 	const tick = (now: number) => {
 		frame = 0;
 		if (!running) return;
+		// 60 fps cap: on 120 Hz displays, skip every other refresh.
+		if (now - previous < FRAME_MS - 2) {
+			frame = requestAnimationFrame(tick);
+			return;
+		}
+		adapt(now - previous);
 		const delta = Math.min((now - previous) / 1000, 0.1);
 		previous = now;
 		sceneTime += delta * (sceneTime >= RIFT_IDLE_START ? look.idleSpeed : 1);
@@ -311,7 +372,28 @@ export async function createRiftRenderer(
 			visible = value;
 		},
 		tune(params) {
-			look = { ...look, ...params };
+			const {
+				maxDpr,
+				pixelBudget,
+				msaa,
+				bloom: bloomOn,
+				...lookParams
+			} = params;
+			quality = {
+				maxDpr: maxDpr ?? quality.maxDpr,
+				pixelBudget: pixelBudget ?? quality.pixelBudget,
+				msaa: msaa ?? quality.msaa,
+				bloom: bloomOn ?? quality.bloom,
+			};
+			for (const rt of [composer.renderTarget1, composer.renderTarget2]) {
+				if (rt.samples !== quality.msaa) {
+					rt.samples = quality.msaa;
+					rt.dispose();
+				}
+			}
+			bloom.enabled = quality.bloom;
+			resize();
+			look = { ...look, ...lookParams };
 			bloom.strength = look.bloomStrength;
 			bloom.radius = look.bloomRadius;
 			bloom.threshold = look.bloomThreshold;
@@ -331,6 +413,9 @@ export async function createRiftRenderer(
 			bloom.dispose();
 			composer.dispose();
 			renderer.dispose();
+			// Free the GPU memory now (the MSAA buffers are large) instead of at GC.
+			renderer.forceContextLoss();
+			canvas.remove();
 		},
 	};
 }

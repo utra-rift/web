@@ -5,6 +5,8 @@ export const INSTAGRAM_HANDLE = "@utra_rift";
 export const INSTAGRAM_HREF = "https://www.instagram.com/utra_rift/";
 export const GITHUB_HREF = "https://github.com/utra-rift";
 export const UTRA_HREF = "https://utra.ca";
+export const COMPLAINTS_HREF =
+	"https://skule.github.io/bylaws/policies/policy-on-complaints.html";
 
 export const NAV_LINKS = [
 	{ label: "GAME", href: "#game" },
@@ -64,7 +66,6 @@ export type Team = {
 	summary: string;
 	tasks: string[];
 	tags: string[];
-	note?: string;
 };
 
 export const TEAMS: Team[] = [
@@ -115,26 +116,6 @@ export const TEAMS: Team[] = [
 			"Handle qualification, travel and transport",
 		],
 		tags: ["Sponsors", "Finance", "Logistics"],
-		note: "Open to every program. No engineering background needed.",
-	},
-];
-
-export const TEAM_PRINCIPLES = [
-	{
-		title: "Any starting point",
-		body: "Beginners get scoped tasks to learn on. Experienced members take on whole subsystems.",
-	},
-	{
-		title: "Leads who teach",
-		body: "Your group lead hands out the work and shows you how to do it. Deliver, and you'll own bigger parts of the robot.",
-	},
-	{
-		title: "Found the team",
-		body: "This is RIFT's first season. The people who join now set how the team runs for years after.",
-	},
-	{
-		title: "Safe by default",
-		body: "Everyone does UTRA safety training before hands-on work. Firing tests happen in a closed box, with goggles on outside it.",
 	},
 ];
 
@@ -146,21 +127,6 @@ export const CARRY_OVER = [
 	{ from: "Wired the PDH, a Control Hub or a V5 Brain", team: "Electronics" },
 	{ from: "Wrote autos in WPILib, the FTC SDK or PROS", team: "Software" },
 	{ from: "Ran sponsors, outreach or the pit", team: "Administration" },
-];
-
-export const LEVEL_UP = [
-	{
-		title: "Robots that shoot back",
-		body: "No game pieces to score. You aim at another robot while it aims at you.",
-	},
-	{
-		title: "A gimbal and a launcher",
-		body: "A two-axis gimbal aims a 17 mm launcher while the chassis keeps driving.",
-	},
-	{
-		title: "A referee system",
-		body: "Armour panels on every robot register hits and take away hit points. Run out and you're done.",
-	},
 ];
 
 export type Phase = {

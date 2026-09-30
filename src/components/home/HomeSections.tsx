@@ -6,6 +6,7 @@ import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 import {
 	CARRY_OVER,
+	COMPLAINTS_HREF,
 	EXEC_TEAM,
 	type Exec,
 	GAME_FACTS,
@@ -15,13 +16,11 @@ import {
 	JOIN_HREF,
 	KICKOFF,
 	LEAGUES,
-	LEVEL_UP,
 	NAV_LINKS,
 	PHOTOS,
 	type Phase,
 	RIVALS,
 	SEASON,
-	TEAM_PRINCIPLES,
 	TEAMS,
 	type Team,
 	UTRA_HREF,
@@ -174,8 +173,8 @@ function TeamsSection() {
 				>
 					<p>
 						RIFT runs as four groups that build one robot together. Join any of
-						them, with or without robotics experience. Each group has a lead who
-						assigns the work and teaches you how to do it.
+						them, with or without robotics experience. All four are open to
+						every program, no engineering background needed.
 					</p>
 				</SectionHeading>
 				<Button
@@ -193,20 +192,6 @@ function TeamsSection() {
 					<TeamCard key={team.id} team={team} index={i} />
 				))}
 			</div>
-
-			<ul className="mt-16 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-				{TEAM_PRINCIPLES.map((principle) => (
-					<li
-						key={principle.title}
-						className="reveal flex flex-col gap-2 border-t pt-5"
-					>
-						<h3 className="type-title">{principle.title}</h3>
-						<p className="type-body-sm text-pretty text-ink-muted">
-							{principle.body}
-						</p>
-					</li>
-				))}
-			</ul>
 		</Section>
 	);
 }
@@ -250,11 +235,6 @@ function TeamCard({ team, index }: { team: Team; index: number }) {
 				{team.tags.map((tag) => (
 					<Badge key={tag}>{tag}</Badge>
 				))}
-				{team.note && (
-					<p className="basis-full pt-2 type-body-sm text-cyan-text">
-						{team.note}
-					</p>
-				)}
 			</div>
 		</article>
 	);
@@ -266,13 +246,14 @@ function LeaguesSection() {
 			<div className="grid gap-14 lg:grid-cols-2 lg:gap-16">
 				<SectionHeading
 					id="frc"
-					eyebrow={LEAGUES.join(" | ")}
+					eyebrow={`Already competed? ${LEAGUES.join(" | ")}`}
 					title="Your next robot"
 				>
 					<p>
-						You've done build season, drive team and the pit. RIFT runs on the
-						same cycle, so your CAD, wiring and code count from the first
-						meeting.
+						If you did FRC, FTC or VEX in high school, you've already been
+						through build season, drive team and the pit. RIFT runs on the same
+						cycle, so that experience counts from the first meeting, and you can
+						take on a whole subsystem instead of starter tasks.
 					</p>
 					<p>
 						Your leads came up the same way, through FRC 7520 and VEX 95500A.
@@ -280,7 +261,9 @@ function LeaguesSection() {
 				</SectionHeading>
 
 				<div className="reveal flex flex-col lg:pt-10">
-					<h3 className="type-label text-ink-muted">Where you fit</h3>
+					<h3 className="type-label text-ink-muted">
+						Where your experience fits
+					</h3>
 					<ul className="mt-4 border-t">
 						{CARRY_OVER.map((row) => (
 							<li
@@ -296,23 +279,6 @@ function LeaguesSection() {
 					</ul>
 				</div>
 			</div>
-
-			<div className="mt-20">
-				<h3 className="reveal type-label text-ink-muted">What's new</h3>
-				<ul className="mt-6 grid gap-4 md:grid-cols-3">
-					{LEVEL_UP.map((item) => (
-						<li
-							key={item.title}
-							className="reveal flex flex-col gap-2 rounded-md border bg-surface p-6"
-						>
-							<h4 className="type-title">{item.title}</h4>
-							<p className="type-body-sm text-pretty text-ink-muted">
-								{item.body}
-							</p>
-						</li>
-					))}
-				</ul>
-			</div>
 		</Section>
 	);
 }
@@ -326,8 +292,8 @@ function ExecSection() {
 				title="Meet the exec team"
 			>
 				<p>
-					One lead for each group. They recruit their group, plan its work and
-					train new members.
+					We started RIFT, and each of us runs one of the four groups. You'll
+					meet all four of us at kickoff.
 				</p>
 			</SectionHeading>
 
@@ -391,9 +357,8 @@ function SeasonSection() {
 		<Section id="season">
 			<SectionHeading id="season" eyebrow="2026-2027 season" title="The season">
 				<p>
-					A working robot by March, then testing and qualification in April.
-					We're aiming for the championships in late June or early July 2027.
-					ARC hasn't confirmed event dates or deadlines yet.
+					We want the robot driving, aiming and firing by March. April is for
+					breaking it in testing and getting it qualified.
 				</p>
 			</SectionHeading>
 
@@ -471,8 +436,8 @@ function KickoffSection() {
 						</p>
 					</div>
 					<p className="max-w-lg type-body text-pretty text-on-navy/80">
-						Meet the leads, hear the plan for the season and pick a team. Bring
-						a friend. No experience required.
+						Come meet the leads and hear how the season will run. Bring a
+						friend. No experience required.
 					</p>
 					<div className="grid gap-3 sm:flex sm:flex-wrap">
 						<Button asChild variant="accent" size="lg">
@@ -559,10 +524,20 @@ export function SiteFooter() {
 				</div>
 			</div>
 			<div className={CONTAINER}>
-				<p className="border-t py-6 type-body-sm text-ink-muted">
-					© {new Date().getFullYear()} University of Toronto Robotics
-					Association
-				</p>
+				<div className="flex flex-col gap-3 border-t py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+					<p className="type-body-sm text-ink-muted">
+						© {new Date().getFullYear()} University of Toronto Robotics
+						Association
+					</p>
+					<a
+						href={COMPLAINTS_HREF}
+						target="_blank"
+						rel="noreferrer"
+						className="type-body-sm text-ink-muted underline underline-offset-4 transition-[color] hover:text-cyan"
+					>
+						The EngSoc Complaints Policy
+					</a>
+				</div>
 			</div>
 		</footer>
 	);
