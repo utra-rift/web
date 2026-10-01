@@ -5,6 +5,8 @@ export const INSTAGRAM_HANDLE = "@utra_rift";
 export const INSTAGRAM_HREF = "https://www.instagram.com/utra_rift/";
 export const GITHUB_HREF = "https://github.com/utra-rift";
 export const UTRA_HREF = "https://utra.ca";
+export const SPONSOR_EMAIL = "arcrobotics@utra.ca";
+export const SPONSOR_HREF = `mailto:${SPONSOR_EMAIL}?subject=${encodeURIComponent("RIFT sponsorship package")}`;
 export const COMPLAINTS_HREF =
 	"https://skule.github.io/bylaws/policies/policy-on-complaints.html";
 
@@ -13,6 +15,7 @@ export const NAV_LINKS = [
 	{ label: "TEAMS", href: "#teams" },
 	{ label: "EXEC", href: "#exec" },
 	{ label: "SEASON", href: "#season" },
+	{ label: "SPONSORS", href: "#sponsors" },
 ];
 
 export const KICKOFF = {
@@ -209,7 +212,7 @@ export const EXEC_TEAM: Exec[] = [
 	{
 		name: "Aaron Huang",
 		role: "Design & build lead",
-		program: "Engineering Science 3T0 + PEY",
+		program: "Engineering Science",
 		photo: "/images/exec/aaron-huang.webp",
 		focus: "Mechanical design, fabrication and assembly.",
 		highlights: [
@@ -221,7 +224,7 @@ export const EXEC_TEAM: Exec[] = [
 	{
 		name: "Max Ma",
 		role: "Electronics lead",
-		program: "Electrical & Computer Engineering 3T0 + PEY",
+		program: "Electrical & Computer Engineering",
 		photo: "/images/exec/max-ma.webp",
 		focus: "Power systems, motor control electronics and electrical testing.",
 		highlights: [
@@ -233,7 +236,7 @@ export const EXEC_TEAM: Exec[] = [
 	{
 		name: "Evan Yu",
 		role: "Software lead",
-		program: "Mathematics '29 + ASIP",
+		program: "Mathematics",
 		photo: "/images/exec/evan-yu.webp",
 		focus: "Robot control software, vision assistance and software testing.",
 		highlights: [
@@ -245,7 +248,7 @@ export const EXEC_TEAM: Exec[] = [
 	{
 		name: "Aiden Kim",
 		role: "Administration lead",
-		program: "Rotman Commerce '30",
+		program: "Rotman Commerce",
 		photo: "/images/exec/aiden-kim.webp",
 		focus: "Fundraising, budgeting, procurement and competition logistics.",
 		highlights: [
@@ -254,4 +257,27 @@ export const EXEC_TEAM: Exec[] = [
 			"Co-founded the YM Case Competition and ran finance for YM Robotics.",
 		],
 	},
+];
+
+/** From the 2026-2027 budget in the pitch deck. */
+export const BUDGET = [
+	{
+		amount: "C$5,000",
+		label:
+			"The robot: motors, electronics, referee hardware, chargers and materials",
+	},
+	{
+		amount: "C$1,024",
+		label: "Registration and shipping the robot to competition",
+	},
+	{ amount: "C$810", label: "Airfare for each member who travels" },
+];
+
+export const SPONSOR_ASKS = [
+	{ title: "Funding", body: "Pays for parts, registration and travel." },
+	{
+		title: "Parts and materials",
+		body: "Motors, controllers, electronics, sheet metal and stock.",
+	},
+	{ title: "Fabrication", body: "Laser cutting, forming and machining." },
 ];

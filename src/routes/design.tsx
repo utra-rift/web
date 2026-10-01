@@ -108,7 +108,7 @@ const HERO_TIMELINE = [
 	{ at: "0.03s", what: "First ignition sparks; the tear starts at 0.13s." },
 	{
 		at: "1.87s",
-		what: "R and FT slide in from the sides with a blur-in (1.3s, ease-out-expo).",
+		what: "R and FT slide in from the sides with a blur-in (1.3s, ease-out-expo). The rift, centred until now, glides left with them so R ✦ FT ends up centred.",
 	},
 	{ at: "2.0s", what: "The tear finishes opening." },
 	{ at: "2.57s", what: "Header fades up 14px (0.9s)." },

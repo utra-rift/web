@@ -140,8 +140,8 @@ const PIVOT_DEPTH = 40;
  *   in depth. parallaxEase is how quickly it catches up (per second).
  */
 const LOOK = {
-	bloomStrength: 0.15,
-	bloomRadius: 0.2,
+	bloomStrength: 0.07,
+	bloomRadius: 0.1,
 	bloomThreshold: 0.9,
 	exposure: 1.6,
 	idleSpeed: 0.4,

@@ -5,6 +5,7 @@ import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 import {
+	BUDGET,
 	CARRY_OVER,
 	COMPLAINTS_HREF,
 	EXEC_TEAM,
@@ -21,6 +22,9 @@ import {
 	type Phase,
 	RIVALS,
 	SEASON,
+	SPONSOR_ASKS,
+	SPONSOR_EMAIL,
+	SPONSOR_HREF,
 	TEAMS,
 	type Team,
 	UTRA_HREF,
@@ -39,6 +43,7 @@ export function HomeSections() {
 			<ExecSection />
 			<SeasonSection />
 			<KickoffSection />
+			<SponsorsSection />
 		</>
 	);
 }
@@ -456,6 +461,82 @@ function KickoffSection() {
 	);
 }
 
+function SponsorsSection() {
+	return (
+		<Section id="sponsors">
+			<div className="grid gap-14 lg:grid-cols-2 lg:gap-16">
+				<div className="flex flex-col gap-10">
+					<SectionHeading
+						id="sponsors"
+						eyebrow="Support the team"
+						title="Sponsors"
+					>
+						<p>
+							RIFT raises its own money. We don't draw on UTRA's existing funds,
+							so what you give goes into this robot and getting it to
+							competition.
+						</p>
+						<p>
+							The referee hardware, chargers and vision gear outlast one season.
+							They'll train new members and power the next robot too.
+						</p>
+					</SectionHeading>
+					<div className="reveal flex flex-col gap-3">
+						<Button
+							asChild
+							variant="accent"
+							size="lg"
+							className="self-start max-sm:w-full"
+						>
+							<a href={SPONSOR_HREF}>Email for the sponsorship package</a>
+						</Button>
+						<p className="type-data text-ink-muted">{SPONSOR_EMAIL}</p>
+					</div>
+				</div>
+
+				<div className="flex flex-col gap-12 lg:pt-10">
+					<div className="reveal flex flex-col gap-4">
+						<h3 className="type-label text-ink-muted">What it costs</h3>
+						<dl className="grid gap-3">
+							{BUDGET.map((line) => (
+								<div
+									key={line.amount}
+									className="grid gap-1 rounded-md bg-surface-raised p-5 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:items-baseline sm:gap-6"
+								>
+									<dt className="order-2 type-body-sm text-ink-muted">
+										{line.label}
+									</dt>
+									<dd className="order-1 font-display text-2xl leading-8 font-semibold text-ink">
+										{line.amount}
+									</dd>
+								</div>
+							))}
+						</dl>
+						<p className="type-body-sm text-ink-muted">
+							Estimates from our 2026-2027 budget. Travel will change once ARC
+							sets the venue.
+						</p>
+					</div>
+
+					<div className="reveal flex flex-col gap-4">
+						<h3 className="type-label text-ink-muted">Ways to help</h3>
+						<ul className="grid gap-6 sm:grid-cols-3">
+							{SPONSOR_ASKS.map((ask) => (
+								<li key={ask.title} className="flex flex-col gap-1">
+									<h4 className="type-title">{ask.title}</h4>
+									<p className="type-body-sm text-pretty text-ink-muted">
+										{ask.body}
+									</p>
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</Section>
+	);
+}
+
 export function SiteFooter() {
 	return (
 		<footer className="border-t">
@@ -513,6 +594,12 @@ export function SiteFooter() {
 							GitHub
 						</a>
 						<a
+							href={SPONSOR_HREF}
+							className="type-body-sm text-ink transition-[color] hover:text-cyan"
+						>
+							Sponsor us
+						</a>
+						<a
 							href={UTRA_HREF}
 							target="_blank"
 							rel="noreferrer"
@@ -535,7 +622,7 @@ export function SiteFooter() {
 						rel="noreferrer"
 						className="type-body-sm text-ink-muted underline underline-offset-4 transition-[color] hover:text-cyan"
 					>
-						The EngSoc Complaints Policy
+						EngSoc Complaints Policy
 					</a>
 				</div>
 			</div>

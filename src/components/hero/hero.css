@@ -20,16 +20,26 @@
 	color: var(--ink);
 }
 
+/* Registered so it can animate smoothly (0 = rift centred, 1 = R ✦ FT centred). */
+@property --shift-progress {
+	syntax: "<number>";
+	inherits: false;
+	initial-value: 0;
+}
+
 .hero-frame,
 .hero-letters {
 	--media-w: max(100cqw, 160cqh);
 	/*
-	 * R ✦ FT is lopsided (FT is almost twice as wide as R), so the rift and the
-	 * letters move left together until the group is centred. From the
-	 * Widescreen UEx Bold metrics: R reaches 0.3246 of the media width left of
-	 * the rift, FT 0.4557 right of it, so the shift is half the difference.
+	 * R ✦ FT is lopsided (FT is almost twice as wide as R), so once the letters
+	 * arrive the rift and letters move left together until the group is centred.
+	 * From the Widescreen UEx Bold metrics: R reaches 0.3246 of the media width
+	 * left of the rift, FT 0.4557 right of it, so the shift is half the
+	 * difference. The opening plays centred; the shift runs with the letters.
 	 */
-	--group-shift: calc(var(--media-w) * -0.0656);
+	--group-shift: calc(var(--media-w) * -0.0656 * var(--shift-progress));
+	animation: hero-group-shift 1.3s var(--ease-out-expo)
+		calc(2.2s + var(--intro-shift, 0s)) both;
 	--rift-y: 50%;
 	--gutter: var(--space-16);
 }
@@ -44,11 +54,11 @@
  */
 .hero-frame {
 	position: absolute;
-	left: calc(50% + var(--group-shift));
+	left: 50%;
 	top: var(--rift-y);
 	width: calc(var(--media-w) * (1 + 2 * 0.0656));
 	height: calc(var(--media-w) * 0.625);
-	translate: -50% -50%;
+	translate: calc(-50% + var(--group-shift)) -50%;
 	pointer-events: none;
 	background-color: #04070e;
 }
@@ -142,7 +152,7 @@
 		0
 	);
 	line-height: 1;
-	text-shadow: 0 0 28px rgba(77, 198, 226, 0.35);
+	text-shadow: 0 0 16px rgba(77, 198, 226, 0.18);
 }
 .hero-letters > :first-child {
 	justify-self: end;
@@ -164,6 +174,11 @@
 }
 .hero-letters > :last-child .hero-letter {
 	transform: translateX(140px);
+}
+@keyframes hero-group-shift {
+	to {
+		--shift-progress: 1;
+	}
 }
 @keyframes hero-letter-in {
 	to {
@@ -364,7 +379,7 @@
 		mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
 	}
 	.hero-letters {
-		text-shadow: 0 0 18px rgba(77, 198, 226, 0.35);
+		text-shadow: 0 0 12px rgba(77, 198, 226, 0.18);
 	}
 	.hero-letters > :first-child .hero-letter {
 		transform: translateX(-60px);
@@ -440,6 +455,11 @@
 		filter: none;
 		transform: none;
 	}
+	.hero .hero-frame,
+	.hero .hero-letters {
+		animation: none;
+		--shift-progress: 1;
+	}
 }
 .hero[data-intro="still"] .hero-letter,
 .hero[data-intro="still"] .hero-ui {
@@ -448,8 +468,15 @@
 	filter: none;
 	transform: none;
 }
+.hero[data-intro="still"] .hero-frame,
+.hero[data-intro="still"] .hero-letters {
+	animation: none;
+	--shift-progress: 1;
+}
 
 /* Loading: hold the intro so the letters land with the tear (RiftHero.tsx). */
+.hero[data-rift="loading"] .hero-frame,
+.hero[data-rift="loading"] .hero-letters,
 .hero[data-rift="loading"] .hero-letter,
 .hero[data-rift="loading"] .hero-ui {
 	animation-play-state: paused;
