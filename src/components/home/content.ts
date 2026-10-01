@@ -259,20 +259,6 @@ export const EXEC_TEAM: Exec[] = [
 	},
 ];
 
-/** From the 2026-2027 budget in the pitch deck. */
-export const BUDGET = [
-	{
-		amount: "C$5,000",
-		label:
-			"The robot: motors, electronics, referee hardware, chargers and materials",
-	},
-	{
-		amount: "C$1,024",
-		label: "Registration and shipping the robot to competition",
-	},
-	{ amount: "C$810", label: "Airfare for each member who travels" },
-];
-
 export const SPONSOR_ASKS = [
 	{ title: "Funding", body: "Pays for parts, registration and travel." },
 	{

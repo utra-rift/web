@@ -5,7 +5,6 @@ import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 import {
-	BUDGET,
 	CARRY_OVER,
 	COMPLAINTS_HREF,
 	EXEC_TEAM,
@@ -494,43 +493,21 @@ function SponsorsSection() {
 					</div>
 				</div>
 
-				<div className="flex flex-col gap-12 lg:pt-10">
-					<div className="reveal flex flex-col gap-4">
-						<h3 className="type-label text-ink-muted">What it costs</h3>
-						<dl className="grid gap-3">
-							{BUDGET.map((line) => (
-								<div
-									key={line.amount}
-									className="grid gap-1 rounded-md bg-surface-raised p-5 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:items-baseline sm:gap-6"
-								>
-									<dt className="order-2 type-body-sm text-ink-muted">
-										{line.label}
-									</dt>
-									<dd className="order-1 font-display text-2xl leading-8 font-semibold text-ink">
-										{line.amount}
-									</dd>
-								</div>
-							))}
-						</dl>
-						<p className="type-body-sm text-ink-muted">
-							Estimates from our 2026-2027 budget. Travel will change once ARC
-							sets the venue.
-						</p>
-					</div>
-
-					<div className="reveal flex flex-col gap-4">
-						<h3 className="type-label text-ink-muted">Ways to help</h3>
-						<ul className="grid gap-6 sm:grid-cols-3">
-							{SPONSOR_ASKS.map((ask) => (
-								<li key={ask.title} className="flex flex-col gap-1">
-									<h4 className="type-title">{ask.title}</h4>
-									<p className="type-body-sm text-pretty text-ink-muted">
-										{ask.body}
-									</p>
-								</li>
-							))}
-						</ul>
-					</div>
+				<div className="reveal flex flex-col gap-4 lg:pt-10">
+					<h3 className="type-label text-ink-muted">Ways to help</h3>
+					<ul className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+						{SPONSOR_ASKS.map((ask) => (
+							<li
+								key={ask.title}
+								className="flex flex-col gap-1 rounded-md bg-surface-raised p-5"
+							>
+								<h4 className="type-title">{ask.title}</h4>
+								<p className="type-body-sm text-pretty text-ink-muted">
+									{ask.body}
+								</p>
+							</li>
+						))}
+					</ul>
 				</div>
 			</div>
 		</Section>
