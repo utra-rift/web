@@ -61,7 +61,7 @@ function Complaints() {
 					</div>
 					<Button asChild variant="outline" size="lg" className="max-sm:w-full">
 						<a href={COMPLAINTS_HREF} target="_blank" rel="noreferrer">
-							View full EngSoc Policy on Complaints
+							EngSoc Complaints Policy
 							<ArrowUpRightIcon strokeWidth={2} />
 						</a>
 					</Button>
