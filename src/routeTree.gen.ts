@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as ComplaintsRouteImport } from './routes/complaints'
 import { Route as DesignRouteImport } from './routes/design'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const ApplyRoute = ApplyRouteImport.update({
   path: '/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComplaintsRoute = ComplaintsRouteImport.update({
+  id: '/complaints',
+  path: '/complaints',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesignRoute = DesignRouteImport.update({
   id: '/design',
   path: '/design',
@@ -32,30 +38,34 @@ const DesignRoute = DesignRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/apply': typeof ApplyRoute
+  '/complaints': typeof ComplaintsRoute
   '/design': typeof DesignRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/apply': typeof ApplyRoute
+  '/complaints': typeof ComplaintsRoute
   '/design': typeof DesignRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/apply': typeof ApplyRoute
+  '/complaints': typeof ComplaintsRoute
   '/design': typeof DesignRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/apply' | '/design'
+  fullPaths: '/' | '/apply' | '/complaints' | '/design'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/apply' | '/design'
-  id: '__root__' | '/' | '/apply' | '/design'
+  to: '/' | '/apply' | '/complaints' | '/design'
+  id: '__root__' | '/' | '/apply' | '/complaints' | '/design'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApplyRoute: typeof ApplyRoute
+  ComplaintsRoute: typeof ComplaintsRoute
   DesignRoute: typeof DesignRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/complaints': {
+      id: '/complaints'
+      path: '/complaints'
+      fullPath: '/complaints'
+      preLoaderRoute: typeof ComplaintsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/design': {
       id: '/design'
       path: '/design'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApplyRoute: ApplyRoute,
+  ComplaintsRoute: ComplaintsRoute,
   DesignRoute: DesignRoute,
 }
 export const routeTree = rootRouteImport

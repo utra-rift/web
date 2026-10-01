@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import Lockup from "#/components/brand/Lockup";
 import { GitHubIcon, InstagramIcon } from "#/components/brand/SocialIcons";
@@ -6,7 +7,6 @@ import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 import {
 	CARRY_OVER,
-	COMPLAINTS_HREF,
 	EXEC_TEAM,
 	type Exec,
 	GAME_FACTS,
@@ -537,7 +537,7 @@ export function SiteFooter() {
 						{NAV_LINKS.map((link) => (
 							<a
 								key={link.href}
-								href={link.href}
+								href={`/${link.href}`}
 								className="type-body-sm text-ink capitalize transition-[color] hover:text-cyan"
 							>
 								{link.label.toLowerCase()}
@@ -593,14 +593,12 @@ export function SiteFooter() {
 						© {new Date().getFullYear()} University of Toronto Robotics
 						Association
 					</p>
-					<a
-						href={COMPLAINTS_HREF}
-						target="_blank"
-						rel="noreferrer"
+					<Link
+						to="/complaints"
 						className="type-body-sm text-ink-muted underline underline-offset-4 transition-[color] hover:text-cyan"
 					>
-						EngSoc Complaints Policy
-					</a>
+						Complaints
+					</Link>
 				</div>
 			</div>
 		</footer>
