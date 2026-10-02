@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRightIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import { COMPLAINTS_HREF } from "#/components/home/content";
+import { COMPLAINTS_HREF, TEAM_EMAIL } from "#/components/home/content";
 import { SiteFooter } from "#/components/home/HomeSections";
 import { SiteHeader } from "#/components/home/SiteHeader";
 import { Button } from "#/components/ui/button";
@@ -54,7 +54,7 @@ function Complaints() {
 			<main className="mx-auto w-full max-w-3xl px-4 pt-12 pb-24 sm:px-8 md:pt-20 md:pb-32">
 				<div className="flex flex-col items-start gap-8">
 					<div className="flex flex-col gap-3">
-						<p className="type-label text-cyan-text">Engineering Society</p>
+						<p className="type-label text-cyan-text">RIFT and EngSoc</p>
 						<h1 className="type-display-lg text-balance max-sm:text-[32px] max-sm:leading-9 md:type-display-xl">
 							Complaints Policy
 						</h1>
@@ -68,6 +68,30 @@ function Complaints() {
 				</div>
 
 				<div className="mt-16 flex flex-col gap-12 type-body text-pretty text-ink-muted">
+					<Block className="rounded-md bg-surface-raised p-6 md:p-8">
+						<h2 className="type-title text-ink">Handled by RIFT</h2>
+						<p>
+							For complaints our team can handle, email{" "}
+							<a href={`mailto:${TEAM_EMAIL}`} className={LINK_CLASS}>
+								{TEAM_EMAIL}
+							</a>{" "}
+							or talk to any{" "}
+							<a href="/#exec" className={LINK_CLASS}>
+								member of the exec team
+							</a>
+							.
+						</p>
+						<p className="type-body-sm">
+							If the complaint is about an executive, or you'd rather go to
+							someone outside the team, use the Engineering Society process
+							below.
+						</p>
+					</Block>
+
+					<h2 className="-mb-8 type-display-sm max-sm:text-xl max-sm:leading-7 text-ink">
+						Engineering Society
+					</h2>
+
 					<Block>
 						<p className="text-ink">On behalf of the Ombudsperson:</p>
 						<p>

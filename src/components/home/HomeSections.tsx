@@ -22,8 +22,8 @@ import {
 	RIVALS,
 	SEASON,
 	SPONSOR_ASKS,
-	SPONSOR_EMAIL,
 	SPONSOR_HREF,
+	TEAM_EMAIL,
 	TEAMS,
 	type Team,
 	UTRA_HREF,
@@ -489,7 +489,7 @@ function SponsorsSection() {
 						>
 							<a href={SPONSOR_HREF}>Email for the sponsorship package</a>
 						</Button>
-						<p className="type-data text-ink-muted">{SPONSOR_EMAIL}</p>
+						<p className="type-data text-ink-muted">{TEAM_EMAIL}</p>
 					</div>
 				</div>
 
