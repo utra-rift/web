@@ -471,9 +471,7 @@ function SponsorsSection() {
 						title="Sponsors"
 					>
 						<p>
-							RIFT raises its own money. We don't draw on UTRA's existing funds,
-							so what you give goes into this robot and getting it to
-							competition.
+							Your support builds our first robot and gets it to competition.
 						</p>
 						<p>
 							The referee hardware, chargers and vision gear outlast one season.
