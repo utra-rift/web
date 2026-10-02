@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRightIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import { COMPLAINTS_HREF, TEAM_EMAIL } from "#/components/home/content";
+import {
+	COMPLAINTS_HREF,
+	TEAM_EMAIL,
+	UTRA_PRESIDENT_EMAIL,
+} from "#/components/home/content";
 import { SiteFooter } from "#/components/home/HomeSections";
 import { SiteHeader } from "#/components/home/SiteHeader";
 import { Button } from "#/components/ui/button";
@@ -69,9 +73,10 @@ function Complaints() {
 
 				<div className="mt-16 flex flex-col gap-12 type-body text-pretty text-ink-muted">
 					<Block className="rounded-md bg-surface-raised p-6 md:p-8">
-						<h2 className="type-title text-ink">Handled by RIFT</h2>
+						<h2 className="type-title text-ink">RIFT and UTRA</h2>
 						<p>
-							For complaints our team can handle, email{" "}
+							<Label>The exec team: </Label>
+							for complaints we can handle right away, email{" "}
 							<a href={`mailto:${TEAM_EMAIL}`} className={LINK_CLASS}>
 								{TEAM_EMAIL}
 							</a>{" "}
@@ -81,10 +86,16 @@ function Complaints() {
 							</a>
 							.
 						</p>
+						<p>
+							<Label>The UTRA president: </Label>
+							email{" "}
+							<a href={`mailto:${UTRA_PRESIDENT_EMAIL}`} className={LINK_CLASS}>
+								{UTRA_PRESIDENT_EMAIL}
+							</a>
+							.
+						</p>
 						<p className="type-body-sm">
-							If the complaint is about an executive, or you'd rather go to
-							someone outside the team, use the Engineering Society process
-							below.
+							Otherwise, use the Engineering Society process below.
 						</p>
 					</Block>
 

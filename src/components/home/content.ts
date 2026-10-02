@@ -5,6 +5,7 @@ export const INSTAGRAM_HANDLE = "@utra_rift";
 export const INSTAGRAM_HREF = "https://www.instagram.com/utra_rift/";
 export const GITHUB_HREF = "https://github.com/utra-rift";
 export const UTRA_HREF = "https://utra.ca";
+export const UTRA_PRESIDENT_EMAIL = "president@utra.ca";
 /** The team inbox: sponsorship and complaints the team can handle. */
 export const TEAM_EMAIL = "arcrobotics@utra.ca";
 export const SPONSOR_HREF = `mailto:${TEAM_EMAIL}?subject=${encodeURIComponent("RIFT sponsorship package")}`;
