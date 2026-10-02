@@ -257,7 +257,8 @@ function RiftCanvas({
 				}
 				onState("ready");
 				setVisible(true);
-				if (import.meta.env.DEV) Object.assign(window, { __rift: renderer });
+				// TODO: temporarily exposed in production for tuning; restore the DEV guard.
+				Object.assign(window, { __rift: renderer });
 
 				observer = new IntersectionObserver(([entry]) =>
 					renderer?.setVisible(entry.isIntersecting),
