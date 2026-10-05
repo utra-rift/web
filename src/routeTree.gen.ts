@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as ComplaintsRouteImport } from './routes/complaints'
 import { Route as DesignRouteImport } from './routes/design'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const ApplyRoute = ApplyRouteImport.update({
   id: '/apply',
   path: '/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplaintsRoute = ComplaintsRouteImport.update({
@@ -38,12 +44,14 @@ const DesignRoute = DesignRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/apply': typeof ApplyRoute
+  '/calendar': typeof CalendarRoute
   '/complaints': typeof ComplaintsRoute
   '/design': typeof DesignRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/apply': typeof ApplyRoute
+  '/calendar': typeof CalendarRoute
   '/complaints': typeof ComplaintsRoute
   '/design': typeof DesignRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/apply': typeof ApplyRoute
+  '/calendar': typeof CalendarRoute
   '/complaints': typeof ComplaintsRoute
   '/design': typeof DesignRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/apply' | '/complaints' | '/design'
+  fullPaths: '/' | '/apply' | '/calendar' | '/complaints' | '/design'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/apply' | '/complaints' | '/design'
-  id: '__root__' | '/' | '/apply' | '/complaints' | '/design'
+  to: '/' | '/apply' | '/calendar' | '/complaints' | '/design'
+  id: '__root__' | '/' | '/apply' | '/calendar' | '/complaints' | '/design'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApplyRoute: typeof ApplyRoute
+  CalendarRoute: typeof CalendarRoute
   ComplaintsRoute: typeof ComplaintsRoute
   DesignRoute: typeof DesignRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/apply'
       fullPath: '/apply'
       preLoaderRoute: typeof ApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/complaints': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApplyRoute: ApplyRoute,
+  CalendarRoute: CalendarRoute,
   ComplaintsRoute: ComplaintsRoute,
   DesignRoute: DesignRoute,
 }
