@@ -11,10 +11,8 @@ import {
 	type Exec,
 	GAME_FACTS,
 	GITHUB_HREF,
-	INSTAGRAM_HANDLE,
 	INSTAGRAM_HREF,
 	JOIN_HREF,
-	KICKOFF,
 	LEAGUES,
 	NAV_LINKS,
 	PHOTOS,
@@ -28,6 +26,7 @@ import {
 	type Team,
 	UTRA_HREF,
 } from "./content";
+import { EventsSection } from "./EventsSection";
 
 /** Gutters match the hero's header and copy at each width. */
 const CONTAINER =
@@ -41,7 +40,7 @@ export function HomeSections() {
 			<LeaguesSection />
 			<ExecSection />
 			<SeasonSection />
-			<KickoffSection />
+			<EventsSection />
 			<SponsorsSection />
 		</>
 	);
@@ -396,67 +395,6 @@ function SeasonSection() {
 				})}
 			</ol>
 		</Section>
-	);
-}
-
-function KickoffSection() {
-	return (
-		<section
-			id="kickoff"
-			aria-labelledby="kickoff-title"
-			className="kickoff relative scroll-mt-4 overflow-hidden bg-surface-brand text-on-navy"
-		>
-			<div
-				className={cn(
-					CONTAINER,
-					"relative grid items-center gap-12 py-24 md:py-32 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-24",
-				)}
-			>
-				<img
-					src="/logos/rift-mark-white.svg"
-					alt=""
-					width={1080}
-					height={1080}
-					loading="lazy"
-					className="kickoff-mark w-24 md:w-40 lg:w-72"
-				/>
-				<div className="reveal flex flex-col gap-8">
-					<div className="flex flex-col gap-4">
-						<p className="type-label text-cyan">First meeting</p>
-						<h2
-							id="kickoff-title"
-							className="type-display-lg max-sm:text-[32px] max-sm:leading-9 md:type-display-xl"
-						>
-							Kickoff
-						</h2>
-						<p className="flex flex-col font-display text-xl leading-7 font-medium uppercase sm:type-display-sm">
-							<span>{KICKOFF.room}</span>
-							<span>
-								{KICKOFF.date}
-								<span aria-hidden="true"> | </span>
-								<span className="sr-only">, </span>
-								{KICKOFF.time}
-							</span>
-						</p>
-					</div>
-					<p className="max-w-lg type-body text-pretty text-on-navy/80">
-						Come meet the leads and hear how the season will run. Bring a
-						friend. No experience required.
-					</p>
-					<div className="grid gap-3 sm:flex sm:flex-wrap">
-						<Button asChild variant="accent" size="lg">
-							<a href={JOIN_HREF}>Join the team</a>
-						</Button>
-						<Button asChild variant="outline" size="lg">
-							<a href={INSTAGRAM_HREF} target="_blank" rel="noreferrer">
-								<InstagramIcon className="size-[18px]" />
-								Follow {INSTAGRAM_HANDLE}
-							</a>
-						</Button>
-					</div>
-				</div>
-			</div>
-		</section>
 	);
 }
 

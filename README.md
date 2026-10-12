@@ -16,13 +16,41 @@ pnpm dev          # http://localhost:3000
 
 Other scripts: `pnpm build`, `pnpm preview`, `pnpm check` (Biome).
 
+## Team calendar
+
+The homepage’s Events section includes a month calendar and upcoming events list.
+To connect Google Calendar, copy `.env.example` to `.env` and set
+`GOOGLE_CALENDAR_ICS_URL` to your calendar’s **Public address in iCal format**
+(Google Calendar → Settings → your calendar → Integrate calendar). Enable public
+access for this calendar. Use a calendar intended for the website; all its events
+will be visible to visitors. Secret/private iCal addresses are rejected.
+
+Restart the running server after changing `.env`. For a local production preview,
+run `pnpm build` followed by `pnpm start`; the start command loads `.env` when it
+exists. On your deployed host, set the same server environment variable.
+The server downloads the feed with a ten-second
+timeout and a 2 MB limit, so browser CORS settings do not affect the integration.
+The feed loads when the page opens; **Refresh** fetches it again.
+
+The **Google Calendar** button opens `/calendar`, which redirects to the team’s
+Google Calendar. The **iCal** button links to the configured public ICS feed so
+visitors can subscribe in their preferred calendar app.
+
+The parser supports recurring events, excluded and rescheduled occurrences,
+all-day/multi-day events, and time zones. Timed events appear in the visitor’s
+local time zone. The month view covers the previous and next twelve months;
+the upcoming list excludes finished events and includes events happening now.
+ICS descriptions are rendered as text, and event links allow only HTTP(S).
+
+Run the calendar regression tests with `pnpm test:calendar` (Node 22.18+ or 24).
+
 ## Deploy
 
 `pnpm build` produces a Nitro server in `.output/`:
 
 ```bash
 pnpm build
-node .output/server/index.mjs     # PORT=8080 to change the port
+pnpm start                      # Loads .env; PORT=8080 to change the port
 ```
 
 For a managed host, set a Nitro preset at build time, for example `NITRO_PRESET=vercel pnpm build`, `netlify` or `cloudflare-pages`. Everything in `public/` (video, fonts, logos) is served as static files. Give `/video/*` and `/fonts/*` long cache headers.

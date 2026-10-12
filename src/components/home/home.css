@@ -55,20 +55,3 @@
 		top: -5px;
 	}
 }
-
-/* Kickoff band: the one glow on the page, behind the spark. */
-.kickoff::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background-image: radial-gradient(
-		rgba(244, 251, 252, 0.08) 1px,
-		transparent 1px
-	);
-	background-size: 32px 32px;
-	mask-image: linear-gradient(90deg, #000, transparent 70%);
-	pointer-events: none;
-}
-.kickoff-mark {
-	filter: drop-shadow(var(--glow-spark));
-}
