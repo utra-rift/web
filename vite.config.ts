@@ -23,7 +23,15 @@ const config = defineConfig({
   },
   plugins: [
     devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+    nitro({
+      rollupConfig: { external: [/^@sentry\//] },
+      // Adopt a Part (utra-rift/rift-adopt-a-part) is its own static site and Vercel project, served here at
+      // /adopt/. Its pages use relative paths, so /adopt gains its trailing slash first.
+      routeRules: {
+        '/adopt': { redirect: { to: '/adopt/', status: 308 } },
+        '/adopt/**': { proxy: 'https://rift-adopt-a-part.vercel.app/**' },
+      },
+    }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
