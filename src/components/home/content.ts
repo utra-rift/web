@@ -145,10 +145,10 @@ export type Phase = {
 
 export const SEASON: Phase[] = [
 	{
-		label: "SEP-OCT",
+		label: "NOV-DEC",
 		title: "Design",
-		from: [2026, 8],
-		to: [2026, 9],
+		from: [2026, 10],
+		to: [2026, 11],
 		milestones: [
 			"Chassis design and parts list",
 			"Order motors and controllers",
@@ -156,10 +156,10 @@ export const SEASON: Phase[] = [
 		],
 	},
 	{
-		label: "NOV-JAN",
-		title: "Rolling chassis",
-		from: [2026, 10],
-		to: [2027, 0],
+		label: "DEC-FEB",
+		title: "Build",
+		from: [2026, 11],
+		to: [2027, 1],
 		milestones: [
 			"Rolling chassis and launcher tests",
 			"Motor and power bench tests",
@@ -167,9 +167,9 @@ export const SEASON: Phase[] = [
 		],
 	},
 	{
-		label: "FEB-MAR",
+		label: "MAR",
 		title: "Working robot",
-		from: [2027, 1],
+		from: [2027, 2],
 		to: [2027, 2],
 		milestones: [
 			"Gimbal, feeder and mounts",
