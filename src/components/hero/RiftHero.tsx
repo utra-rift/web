@@ -1,6 +1,5 @@
 import { MenuIcon } from "lucide-react";
 import {
-	Fragment,
 	type RefObject,
 	useCallback,
 	useEffect,
@@ -14,7 +13,6 @@ import {
 	INSTAGRAM_HANDLE,
 	INSTAGRAM_HREF,
 	JOIN_HREF,
-	KICKOFF,
 	NAV_LINKS,
 } from "#/components/home/content";
 import { Button } from "#/components/ui/button";
@@ -55,8 +53,6 @@ const EMBERS = [
 	{ left: 81, top: 94, delay: 7.3 },
 	{ left: 88, top: 97, delay: 4.1, tone: "ice" },
 ];
-
-const KICKOFF_FACTS = [KICKOFF.room, KICKOFF.date, KICKOFF.time];
 
 type IntroMode = "play" | "still";
 /** WebGL only: "loading" holds the intro, "slow" gave up waiting and shows the still underneath. */
@@ -162,20 +158,6 @@ export default function RiftHero() {
 				</div>
 
 				<div className="hero-kick hero-ui is-late">
-					<p className="hero-when">
-						<b>KICKOFF</b>
-						{KICKOFF_FACTS.map((fact, i) => (
-							<Fragment key={fact}>
-								{i > 0 && (
-									<>
-										<span aria-hidden="true"> | </span>
-										<span className="sr-only">, </span>
-									</>
-								)}
-								{fact}
-							</Fragment>
-						))}
-					</p>
 					<Button asChild variant="accent">
 						<a href={JOIN_HREF}>Join the team</a>
 					</Button>
