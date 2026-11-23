@@ -241,9 +241,9 @@ export const EXEC_TEAM: Exec[] = [
 		role: "Software lead",
 		program: "Mathematics",
 		photo: "/images/exec/evan-yu.webp",
-		focus: "Robot control software, vision assistance and software testing.",
+		focus: "Robot control systems, vision assistance, and software testing.",
 		highlights: [
-			"Co-founded YM Robotics, and built and drove its competition robot.",
+			"Co-founded YM Robotics, led programming, and built and drove its competition robot.",
 			"Founding product engineer at The Relationship Company.",
 			"First place in Education at Stanford TreeHacks. Works with Raspberry Pi, Arduino and custom PCBs.",
 		],
