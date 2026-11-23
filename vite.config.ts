@@ -24,6 +24,16 @@ const config = defineConfig({
   plugins: [
     devtools(),
     nitro({
+      cloudflare: {
+        wrangler: {
+          observability: {
+            logs: {
+              enabled: true,
+              invocation_logs: true,
+            },
+          },
+        },
+      },
       rollupConfig: { external: [/^@sentry\//] },
       // Adopt a Part (utra-rift/rift-adopt-a-part) is its own static site and Vercel project, served here at
       // /adopt/. Its pages use relative paths, so /adopt gains its trailing slash first.
